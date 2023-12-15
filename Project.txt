@@ -1,0 +1,22 @@
+Relações:
+    Cliente - 1 pra 1 - Loja
+    Cliente - 1 pra muitos - Jogo
+    Loja - 1 pra muitos - Jogo
+    
+Models:
+    Cliente - Id, Nome, Idade, Saldo, Email, Senha
+    Adm - Id, Nome, Email, Senha
+    Loja - Id do cliente, Jogos Disponíveis
+    Biblioteca - Id do cliente, Jogos Comprados
+    Jogo - Id, Nome, Genero, Plataforma, +18, Descriçao, Preço
+
+Funções:
+    Cliente - Cadastro, Login, Comprar jogo, Ver lista de jogos da loja, Ver os jogos de sua biblioteca, Adicionar Saldo
+    Adm - Login, Adicionar jogo, Atualizar infos do jogo, Excluir jogo, Ver todos os jogos
+
+Rotas:
+    /user - GET, POST
+    /user/id - GET, PUT, PATCH, DELETE
+
+    /game - GET, POST
+    /game/id - GET, PUT, PATCH, DELETE
