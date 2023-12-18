@@ -2,8 +2,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace game_store_api.Models
 {
-    public abstract class User
+    public class User
     {
+        public User()
+        {
+            Balance = 0;
+        }
+
         [Key]
         [Required]
         public int Id { get; set; }
@@ -20,7 +25,7 @@ namespace game_store_api.Models
 
         [Required(ErrorMessage = "Informe seu email")]
         [DataType(DataType.EmailAddress)]
-        [RegularExpression(@"/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i", ErrorMessage = "Informe um email válido")]
+        [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Informe um email válido")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Informe sua senha")]
