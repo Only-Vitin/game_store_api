@@ -11,10 +11,10 @@ namespace web_api.Controllers
     [Route("[controller]")]
     public class GameController : ControllerBase
     {
-        private GameContext _context;
+        private Context _context;
         private IMapper _mapper;
 
-        public GameController(GameContext context, IMapper mapper)
+        public GameController(Context context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
