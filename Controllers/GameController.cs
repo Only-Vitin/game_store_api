@@ -29,7 +29,7 @@ namespace web_api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetGameById(int id)
         {
-            Game selectedGame = _context.Game.FirstOrDefault(i => i.Id == id);
+            Game selectedGame = _context.Game.Where(i => i.Id == id).SingleOrDefault();
 
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedGame == null) return NotFound();
@@ -48,6 +48,32 @@ namespace web_api.Controllers
 
             Response.Headers.Add("Date", $"{DateTime.Now}");
             return CreatedAtAction(nameof(GetGameById), new { Id = game.Id }, game);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult PutGame(int id, [FromBody] GameDto gameDto)
+        {
+            Game gameSelected = _context.Game.Where(game => game.Id == id).SingleOrDefault();
+            Response.Headers.Add("Date", $"{DateTime.Now}");
+            if(gameSelected == null) return NotFound();
+
+            _mapper.Map(gameDto, gameSelected);
+            _context.SaveChanges();
+            
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteGame(int id)
+        {
+            Game gameSelected = _context.Game.Where(game => game.Id == id).SingleOrDefault();
+            Response.Headers.Add("Date", $"{DateTime.Now}");
+            if(gameSelected == null) return NotFound();
+
+            _context.Remove(gameSelected);
+            _context.SaveChanges();
+
+            return NoContent();
         }
     }
 }
