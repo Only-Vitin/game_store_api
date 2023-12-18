@@ -17,7 +17,7 @@ namespace game_store_api.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Informe a sua idade")]
-        [Range(10, 200, ErrorMessage = "A idade deve ser entre 10 e 200 anos")]
+        [Range(0, 200, ErrorMessage = "A idade deve ser entre 10 e 200 anos")]
         public int Age { get; set; }
 
         [Required]
@@ -30,6 +30,9 @@ namespace game_store_api.Models
 
         [Required(ErrorMessage = "Informe sua senha")]
         [DataType(DataType.Password)]
+        // [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=])[A-Za-z\d!@#$%^&*()-_+=]{8,}$
+        // ", ErrorMessage = "A senha deve conter: uma letra mauscula, uma letra minuscula, um numero, um caracter especial e ao menos 8 caracteres")]
+        
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Informe se é adm")]

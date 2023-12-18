@@ -18,6 +18,8 @@ namespace game_store_api.Dto
 
         [Required(ErrorMessage = "Informe sua senha")]
         [DataType(DataType.Password)]
+        // [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=])[A-Za-z\d!@#$%^&*()-_+=]{8,}$
+        // ", ErrorMessage = "A senha deve conter: uma letra mauscula, uma letra minuscula, um numero, um caracter especial e ao menos 8 caracteres")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Informe se é adm")]

@@ -13,6 +13,7 @@ namespace game_store_api.Dto
         [Required(ErrorMessage = "Informe a plataforma do jogo")]
         public string Platform { get; set; }
 
+        [DataType(DataType.MultilineText)]
         [Required(ErrorMessage = "Por favor informe a descrição do jogo")]
         public string Description { get; set; }
 
