@@ -11,5 +11,12 @@ namespace web_api.Data
         public DbSet<Game> Game { get; set; }
         public DbSet<User> User { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<Game>().ToTable("Game");
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
