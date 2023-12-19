@@ -8,6 +8,8 @@ using BCryptNet = BCrypt.Net.BCrypt;
 
 using game_store_api.Models;
 using game_store_api.Dto;
+using game_store_api.Utils;
+using game_store_api.Service;
 
 namespace web_api.Controllers
 {
@@ -23,16 +25,12 @@ namespace web_api.Controllers
             _context = context;
             _mapper = mapper;
         }
+        private readonly UserService userService = new();
 
         [HttpGet]
         public IActionResult GetUser()
         {
-            List<GetUserDto> usersDto = new();
-            foreach(User user in _context.User)
-            {
-                GetUserDto userGetDto = _mapper.Map<GetUserDto>(user);
-                usersDto.Add(userGetDto);
-            }
+            List<GetUserDto> usersDto = userService.GetUserService(_context, _mapper);
             return Ok(usersDto);
         }
         
@@ -51,8 +49,13 @@ namespace web_api.Controllers
         [HttpPost]
         public IActionResult PostUser([FromBody] PostUserDto userDto)
         {
+            if(!userService.VerifyEmailOnDb(userDto, _context))
+            {
+                CustomMessage customMessage = new("O email já existe no banco de dados");
+                return Conflict(customMessage);
+            }
+            
             User user = _mapper.Map<User>(userDto);
-
             user.Password = BCryptNet.EnhancedHashPassword(user.Password, 13);
 
             _context.User.Add(user);
@@ -60,7 +63,7 @@ namespace web_api.Controllers
 
             GetUserDto userGetDto = _mapper.Map<GetUserDto>(user);
             Response.Headers.Add("Date", $"{DateTime.Now}");
-            return CreatedAtAction(nameof(GetUserById), new { Id = user.UserId }, userGetDto);
+            return CreatedAtAction(nameof(GetUserById), new { Id = userGetDto.UserId }, userGetDto);
         }
 
         [HttpPut("{id}")]
