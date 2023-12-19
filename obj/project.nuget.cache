@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "r6P65uKoffIv5FnoshtAM4DXaDxmEPIDQajmfTCmTQ5uR/voXAaZkjCXqYBzaEE9hg+Ww2NqzZvPlvcu6CmbxQ==",
+  "dgSpecHash": "uVQlWW8qxBtT8kVp5K5N89dP3tRodDqrQKU2Nv/rWFto7K/O+y6k+MqIgn6NnNr+OIwNdgV4RhnDOXvMO40irw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Projeto Trainee\\Documents\\game_store_api\\game_store_api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Projeto Trainee\\.nuget\\packages\\automapper\\7.0.1\\automapper.7.0.1.nupkg.sha512",
     "C:\\Users\\Projeto Trainee\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\5.0.0\\automapper.extensions.microsoft.dependencyinjection.5.0.0.nupkg.sha512",
+    "C:\\Users\\Projeto Trainee\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Projeto Trainee\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Projeto Trainee\\.nuget\\packages\\microsoft.aspnetcore.http.abstractions\\2.0.1\\microsoft.aspnetcore.http.abstractions.2.0.1.nupkg.sha512",
     "C:\\Users\\Projeto Trainee\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.0.1\\microsoft.aspnetcore.http.features.2.0.1.nupkg.sha512",

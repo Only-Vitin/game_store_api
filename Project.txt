@@ -4,10 +4,7 @@ Relações:
     Loja - 1 pra muitos - Jogo
     
 Models:
-    Cliente - Id, Nome, Idade, Saldo, Email, Senha
-    Adm - Id, Nome, Email, Senha
-    Loja - Id do cliente, Jogos Disponíveis
-    Biblioteca - Id do cliente, Jogos Comprados
+    User - Id, Nome, Idade, Saldo, Email, Senha
     Jogo - Id, Nome, Genero, Plataforma, +18, Descriçao, Preço
 
 Funções:

@@ -11,9 +11,10 @@ namespace game_store_api.Models
 
         [Key]
         [Required]
-        public int Id { get; set; }
+        public int UserId { get; set; }
 
         [Required(ErrorMessage = "Informe seu nome")]
+        [StringLength(100)]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Informe a sua idade")]
@@ -24,18 +25,19 @@ namespace game_store_api.Models
         public double Balance { get; set; }
 
         [Required(ErrorMessage = "Informe seu email")]
+        [StringLength(200)]
         [DataType(DataType.EmailAddress)]
         [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Informe um email válido")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Informe sua senha")]
         [DataType(DataType.Password)]
-        // [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=])[A-Za-z\d!@#$%^&*()-_+=]{8,}$
-        // ", ErrorMessage = "A senha deve conter: uma letra mauscula, uma letra minuscula, um numero, um caracter especial e ao menos 8 caracteres")]
-        
+        [StringLength(500)]
         public string Password { get; set; }
-
+        
         [Required(ErrorMessage = "Informe se é adm")]
         public bool Adm { get; set; }
+
+        public Token Token { get; set; }
     }
 }

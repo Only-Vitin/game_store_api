@@ -2,16 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace game_store_api.Dto
 {
-    public class PostUserDto
+    public class LoginDto
     {
-        [Required(ErrorMessage = "Informe seu nome")]
-        [StringLength(100)]
-        public string Name { get; set; }
-
-        [Required(ErrorMessage = "Informe a sua idade")]
-        [Range(0, 200, ErrorMessage = "A idade deve ser entre 10 e 200 anos")]
-        public int Age { get; set; }
-
         [Required(ErrorMessage = "Informe seu email")]
         [StringLength(200)]
         [DataType(DataType.EmailAddress)]
@@ -22,8 +14,5 @@ namespace game_store_api.Dto
         [DataType(DataType.Password)]
         [StringLength(500)]
         public string Password { get; set; }
-        
-        [Required(ErrorMessage = "Informe se é adm")]
-        public bool Adm { get; set; }
     }
 }

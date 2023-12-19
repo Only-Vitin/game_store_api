@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace game_store_api.Models
 {
@@ -6,7 +7,7 @@ namespace game_store_api.Models
     {
         [Key]
         [Required]
-        public int Id { get; set; }
+        public int GameId { get; set; }
 
         [Required(ErrorMessage = "Informe o nome do jogo")]
         public string Name { get; set; }

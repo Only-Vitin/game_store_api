@@ -1,10 +1,11 @@
 using System;
-using System.Linq;
 using AutoMapper;
+using System.Linq;
+using web_api.Data;
+using Microsoft.AspNetCore.Mvc;
+
 using game_store_api.Dto;
 using game_store_api.Models;
-using Microsoft.AspNetCore.Mvc;
-using web_api.Data;
 
 namespace web_api.Controllers
 {
@@ -30,7 +31,7 @@ namespace web_api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetGameById(int id)
         {
-            Game selectedGame = _context.Game.Where(i => i.Id == id).SingleOrDefault();
+            Game selectedGame = _context.Game.Where(i => i.GameId == id).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedGame == null) return NotFound();
 
@@ -47,13 +48,13 @@ namespace web_api.Controllers
             _context.SaveChanges();
 
             Response.Headers.Add("Date", $"{DateTime.Now}");
-            return CreatedAtAction(nameof(GetGameById), new { Id = game.Id }, game);
+            return CreatedAtAction(nameof(GetGameById), new { Id = game.GameId }, game);
         }
 
         [HttpPut("{id}")]
         public IActionResult PutGame(int id, [FromBody] GameDto gameDto)
         {
-            Game selectedGame = _context.Game.Where(game => game.Id == id).SingleOrDefault();
+            Game selectedGame = _context.Game.Where(game => game.GameId == id).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedGame == null) return NotFound();
 
@@ -66,7 +67,7 @@ namespace web_api.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteGame(int id)
         {
-            Game selectedGame = _context.Game.Where(game => game.Id == id).SingleOrDefault();
+            Game selectedGame = _context.Game.Where(game => game.GameId == id).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedGame == null) return NotFound();
 

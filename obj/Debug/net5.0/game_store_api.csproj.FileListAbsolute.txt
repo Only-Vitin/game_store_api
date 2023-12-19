@@ -38,3 +38,4 @@ C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\Microsoft.Ext
 C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\MySqlConnector.dll
 C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\BCrypt.Net-Next.dll

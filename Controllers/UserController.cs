@@ -1,12 +1,13 @@
 using System;
 using AutoMapper;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 using web_api.Data;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 using game_store_api.Models;
 using game_store_api.Dto;
-using System.Collections.Generic;
 
 namespace web_api.Controllers
 {
@@ -38,7 +39,7 @@ namespace web_api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetUserById(int id)
         {
-            User selectedUser = _context.User.Where(i => i.Id == id).SingleOrDefault();
+            User selectedUser = _context.User.Where(i => i.UserId == id).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedUser == null) return NotFound();
 
@@ -51,22 +52,25 @@ namespace web_api.Controllers
         public IActionResult PostUser([FromBody] PostUserDto userDto)
         {
             User user = _mapper.Map<User>(userDto);
+
+            user.Password = BCryptNet.EnhancedHashPassword(user.Password, 13);
+
             _context.User.Add(user);
             _context.SaveChanges();
 
             GetUserDto userGetDto = _mapper.Map<GetUserDto>(user);
-
             Response.Headers.Add("Date", $"{DateTime.Now}");
-            return CreatedAtAction(nameof(GetUserById), new { Id = userGetDto.Id }, userGetDto);
+            return CreatedAtAction(nameof(GetUserById), new { Id = user.UserId }, userGetDto);
         }
 
         [HttpPut("{id}")]
         public IActionResult PutUser(int id, [FromBody] PostUserDto userDto)
         {
-            User selectedUser = _context.User.Where(user => user.Id == id).SingleOrDefault();
+            User selectedUser = _context.User.Where(user => user.UserId == id).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedUser == null) return NotFound();
 
+            userDto.Password = BCryptNet.EnhancedHashPassword(userDto.Password, 13);
             _mapper.Map(userDto, selectedUser);
             _context.SaveChanges();
             
@@ -76,7 +80,7 @@ namespace web_api.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(int id)
         {
-            User selectedUser = _context.User.Where(user => user.Id == id).SingleOrDefault();
+            User selectedUser = _context.User.Where(user => user.UserId == id).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedUser == null) return NotFound();
 
