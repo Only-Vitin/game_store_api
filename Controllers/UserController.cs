@@ -30,6 +30,7 @@ namespace web_api.Controllers
         private readonly UserService userService = new();
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult GetUser()
         {
             List<GetUserDto> usersDto = userService.GetUserService(_context, _mapper);
@@ -37,6 +38,7 @@ namespace web_api.Controllers
         }
         
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin,user")]
         public IActionResult GetUserById(int id)
         {
             User selectedUser = _context.User.Where(i => i.UserId == id).SingleOrDefault();
@@ -79,6 +81,7 @@ namespace web_api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin,user")]
         public IActionResult DeleteUser(int id)
         {
             User selectedUser = _context.User.Where(user => user.UserId == id).SingleOrDefault();

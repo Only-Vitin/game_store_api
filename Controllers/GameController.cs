@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using game_store_api.Dto;
 using game_store_api.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace web_api.Controllers
 {
@@ -23,12 +24,14 @@ namespace web_api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin,user")]
         public IActionResult GetGame()
         {
             return Ok(_context.Game);
         }
         
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin,user")]
         public IActionResult GetGameById(int id)
         {
             Game selectedGame = _context.Game.Where(i => i.GameId == id).SingleOrDefault();
@@ -41,6 +44,7 @@ namespace web_api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult PostGame([FromBody] GameDto gameDto)
         {
             Game game = _mapper.Map<Game>(gameDto);
@@ -52,6 +56,7 @@ namespace web_api.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult PutGame(int id, [FromBody] GameDto gameDto)
         {
             Game selectedGame = _context.Game.Where(game => game.GameId == id).SingleOrDefault();
@@ -65,6 +70,7 @@ namespace web_api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteGame(int id)
         {
             Game selectedGame = _context.Game.Where(game => game.GameId == id).SingleOrDefault();
