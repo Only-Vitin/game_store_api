@@ -9,6 +9,6 @@ namespace game_store_api.Models
         public int Age { get; set; }
         public double Balance { get; set; }
         public string Email { get; set; }
-        public bool Adm { get; set; }
+        public string Role { get; set; }
     }
 }

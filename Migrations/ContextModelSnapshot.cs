@@ -55,6 +55,10 @@ namespace game_store_api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("ExpirationDate")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("TokenValue")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -64,8 +68,7 @@ namespace game_store_api.Migrations
 
                     b.HasKey("TokenId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("Token");
                 });
@@ -75,9 +78,6 @@ namespace game_store_api.Migrations
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<bool>("Adm")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
@@ -100,6 +100,10 @@ namespace game_store_api.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.HasKey("UserId");
 
                     b.ToTable("User");
@@ -108,8 +112,8 @@ namespace game_store_api.Migrations
             modelBuilder.Entity("game_store_api.Models.Token", b =>
                 {
                     b.HasOne("game_store_api.Models.User", "User")
-                        .WithOne("Token")
-                        .HasForeignKey("game_store_api.Models.Token", "UserId")
+                        .WithMany("Tokens")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -118,7 +122,7 @@ namespace game_store_api.Migrations
 
             modelBuilder.Entity("game_store_api.Models.User", b =>
                 {
-                    b.Navigation("Token");
+                    b.Navigation("Tokens");
                 });
 #pragma warning restore 612, 618
         }

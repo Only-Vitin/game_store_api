@@ -8,8 +8,8 @@ using web_api.Data;
 namespace game_store_api.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231219170043_TokenMigration")]
-    partial class TokenMigration
+    [Migration("20231220205727_JwtMigration")]
+    partial class JwtMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,6 +57,10 @@ namespace game_store_api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("ExpirationDate")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("TokenValue")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -66,8 +70,7 @@ namespace game_store_api.Migrations
 
                     b.HasKey("TokenId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("Token");
                 });
@@ -78,9 +81,6 @@ namespace game_store_api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<bool>("Adm")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
@@ -89,13 +89,20 @@ namespace game_store_api.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -107,8 +114,8 @@ namespace game_store_api.Migrations
             modelBuilder.Entity("game_store_api.Models.Token", b =>
                 {
                     b.HasOne("game_store_api.Models.User", "User")
-                        .WithOne("Token")
-                        .HasForeignKey("game_store_api.Models.Token", "UserId")
+                        .WithMany("Tokens")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -117,7 +124,7 @@ namespace game_store_api.Migrations
 
             modelBuilder.Entity("game_store_api.Models.User", b =>
                 {
-                    b.Navigation("Token");
+                    b.Navigation("Tokens");
                 });
 #pragma warning restore 612, 618
         }

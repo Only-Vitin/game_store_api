@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace game_store_api.Models
@@ -35,9 +37,9 @@ namespace game_store_api.Models
         [StringLength(500)]
         public string Password { get; set; }
         
-        [Required(ErrorMessage = "Informe se é adm")]
-        public bool Adm { get; set; }
+        [Required(ErrorMessage = "Informe se é admin ou user")]
+        public string Role { get; set; }
 
-        public Token Token { get; set; }
+        public ICollection<Token> Tokens { get; set; }
     }
 }

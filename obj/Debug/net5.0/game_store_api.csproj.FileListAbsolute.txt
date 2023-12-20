@@ -39,3 +39,10 @@ C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\MySqlConnecto
 C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
 C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\BCrypt.Net-Next.dll
+C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll

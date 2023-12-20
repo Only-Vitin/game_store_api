@@ -14,6 +14,9 @@ namespace game_store_api.Models
 
         [Required]
         public string TokenValue { get; set; }
+
+        [Required]
+        public string ExpirationDate { get; set; }
     
         [ForeignKey("UserId")]
         public User User { get; set; }

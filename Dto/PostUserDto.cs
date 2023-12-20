@@ -23,7 +23,7 @@ namespace game_store_api.Dto
         [StringLength(500)]
         public string Password { get; set; }
         
-        [Required(ErrorMessage = "Informe se é adm")]
-        public bool Adm { get; set; }
+        [Required(ErrorMessage = "Informe se é admin ou user")]
+        public string Role { get; set; }
     }
 }

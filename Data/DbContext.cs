@@ -27,8 +27,8 @@ namespace web_api.Data
 
             modelBuilder.Entity<Token>()
             .HasOne(t => t.User)
-            .WithOne(u => u.Token)
-            .HasForeignKey<Token>(t => t.UserId);
+            .WithMany(u => u.Tokens)
+            .HasForeignKey(t => t.UserId);
 
             base.OnModelCreating(modelBuilder);
         }
