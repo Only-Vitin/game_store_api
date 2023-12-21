@@ -3,10 +3,10 @@ using AutoMapper;
 using System.Linq;
 using web_api.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using game_store_api.Dto;
 using game_store_api.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace web_api.Controllers
 {

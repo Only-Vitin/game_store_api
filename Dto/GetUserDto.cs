@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace game_store_api.Models
 {
     public class GetUserDto

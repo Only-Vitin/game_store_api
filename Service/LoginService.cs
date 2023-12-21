@@ -4,13 +4,13 @@ using System.Linq;
 using web_api.Data;
 using System.Security.Claims;
 using BCryptNet = BCrypt.Net.BCrypt;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.DataProtection;
+using System.IdentityModel.Tokens.Jwt;
 
 using game_store_api.Dto;
 using game_store_api.Models;
 using game_store_api.Utils;
+
 namespace game_store_api.Service
 {
     public class LoginService

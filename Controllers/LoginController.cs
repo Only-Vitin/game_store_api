@@ -1,3 +1,4 @@
+using AutoMapper;
 using System.Linq;
 using web_api.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -6,8 +7,6 @@ using game_store_api.Dto;
 using game_store_api.Service;
 using game_store_api.Utils;
 using game_store_api.Models;
-using AutoMapper;
-using System;
 
 namespace web_api.Controllers
 {
