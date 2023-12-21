@@ -1530,19 +1530,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Projeto Trainee\\.nuget\\packages\\": {}
+    "C:\\Users\\vitor.santos\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Projeto Trainee\\Documents\\game_store_api\\game_store_api.csproj",
+      "projectUniqueName": "C:\\Users\\vitor.santos\\Documents\\game_store_api\\game_store_api.csproj",
       "projectName": "game_store_api",
-      "projectPath": "C:\\Users\\Projeto Trainee\\Documents\\game_store_api\\game_store_api.csproj",
-      "packagesPath": "C:\\Users\\Projeto Trainee\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Projeto Trainee\\Documents\\game_store_api\\obj\\",
+      "projectPath": "C:\\Users\\vitor.santos\\Documents\\game_store_api\\game_store_api.csproj",
+      "packagesPath": "C:\\Users\\vitor.santos\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\vitor.santos\\Documents\\game_store_api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Projeto Trainee\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\vitor.santos\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"

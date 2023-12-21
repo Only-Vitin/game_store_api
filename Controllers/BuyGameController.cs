@@ -27,7 +27,7 @@ namespace web_api.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("/user/{userId}/game/{gameId}")]
+        [HttpPost("user/{userId}/game/{gameId}")]
         public IActionResult BuyGame()
         {
             return Ok("OIII");
