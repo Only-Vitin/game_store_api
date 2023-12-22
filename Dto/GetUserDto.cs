@@ -1,4 +1,4 @@
-namespace game_store_api.Models
+namespace game_store_api.Dto
 {
     public class GetUserDto
     {

@@ -1,14 +1,14 @@
 using System;
 using AutoMapper;
 using System.Linq;
-using web_api.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 using game_store_api.Dto;
-using game_store_api.Models;
+using game_store_api.Data;
+using game_store_api.Entities;
 
-namespace web_api.Controllers
+namespace game_store_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]

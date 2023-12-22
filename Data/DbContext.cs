@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
-using game_store_api.Models;
+using game_store_api.Entities;
 
-namespace web_api.Data
+namespace game_store_api.Data
 {
     public class Context : DbContext
     {

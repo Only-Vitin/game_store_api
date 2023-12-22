@@ -1,18 +1,18 @@
 using System;
 using AutoMapper;
 using System.Text;
-using web_api.Data;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 using game_store_api.Utils;
-using Microsoft.IdentityModel.Tokens;
+using game_store_api.Data;
 
 namespace game_store_api
 {

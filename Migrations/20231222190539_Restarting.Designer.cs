@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using web_api.Data;
+using game_store_api.Data;
 
 namespace game_store_api.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231220205727_JwtMigration")]
-    partial class JwtMigration
+    [Migration("20231222190539_Restarting")]
+    partial class Restarting
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,7 +18,7 @@ namespace game_store_api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.5");
 
-            modelBuilder.Entity("game_store_api.Models.Game", b =>
+            modelBuilder.Entity("game_store_api.Entities.Game", b =>
                 {
                     b.Property<int>("GameId")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,7 @@ namespace game_store_api.Migrations
                     b.ToTable("Game");
                 });
 
-            modelBuilder.Entity("game_store_api.Models.Token", b =>
+            modelBuilder.Entity("game_store_api.Entities.Token", b =>
                 {
                     b.Property<int>("TokenId")
                         .ValueGeneratedOnAdd()
@@ -75,7 +75,7 @@ namespace game_store_api.Migrations
                     b.ToTable("Token");
                 });
 
-            modelBuilder.Entity("game_store_api.Models.User", b =>
+            modelBuilder.Entity("game_store_api.Entities.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -111,9 +111,9 @@ namespace game_store_api.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("game_store_api.Models.Token", b =>
+            modelBuilder.Entity("game_store_api.Entities.Token", b =>
                 {
-                    b.HasOne("game_store_api.Models.User", "User")
+                    b.HasOne("game_store_api.Entities.User", "User")
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -122,7 +122,7 @@ namespace game_store_api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("game_store_api.Models.User", b =>
+            modelBuilder.Entity("game_store_api.Entities.User", b =>
                 {
                     b.Navigation("Tokens");
                 });

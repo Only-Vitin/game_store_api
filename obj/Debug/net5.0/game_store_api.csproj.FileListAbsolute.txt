@@ -46,16 +46,6 @@ C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\Microsoft.Asp
 C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
 C:\Users\Projeto Trainee\Documents\game_store_api\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.csproj.AssemblyReference.cache
-C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.AssemblyInfoInputs.cache
-C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.AssemblyInfo.cs
-C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.csproj.CoreCompileInputs.cache
-C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.dll
-C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\ref\game_store_api.dll
-C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.pdb
 C:\Users\vitor.santos\Documents\game_store_api\bin\Debug\net5.0\appsettings.Development.json
 C:\Users\vitor.santos\Documents\game_store_api\bin\Debug\net5.0\appsettings.json
 C:\Users\vitor.santos\Documents\game_store_api\bin\Debug\net5.0\game_store_api.exe
@@ -88,9 +78,19 @@ C:\Users\vitor.santos\Documents\game_store_api\bin\Debug\net5.0\Swashbuckle.AspN
 C:\Users\vitor.santos\Documents\game_store_api\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\vitor.santos\Documents\game_store_api\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
 C:\Users\vitor.santos\Documents\game_store_api\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.csproj.AssemblyReference.cache
+C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.AssemblyInfoInputs.cache
+C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.AssemblyInfo.cs
+C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.csproj.CoreCompileInputs.cache
+C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\staticwebassets\game_store_api.StaticWebAssets.Manifest.cache
 C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\staticwebassets\game_store_api.StaticWebAssets.xml
 C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\scopedcss\bundle\game_store_api.styles.css
 C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.RazorTargetAssemblyInfo.cache
 C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.csproj.CopyComplete
+C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.dll
+C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\ref\game_store_api.dll
+C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.pdb
 C:\Users\vitor.santos\Documents\game_store_api\obj\Debug\net5.0\game_store_api.genruntimeconfig.cache

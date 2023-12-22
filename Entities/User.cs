@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace game_store_api.Models
+namespace game_store_api.Entities
 {
     public class User
     {

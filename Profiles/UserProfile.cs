@@ -1,9 +1,9 @@
 using AutoMapper;
 
 using game_store_api.Dto;
-using game_store_api.Models;
+using game_store_api.Entities;
 
-namespace web_api.Profiles
+namespace game_store_api.Profiles
 {
    public class UserProfile : Profile
    {

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace game_store_api.Models
+namespace game_store_api.Entities
 {
     public class Token
     {

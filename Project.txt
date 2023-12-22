@@ -1,7 +1,0 @@
-Models:
-    User - Id, Nome, Idade, Saldo, Email, Senha
-    Jogo - Id, Nome, Genero, Plataforma, +18, Descriçao, Preço
-
-Funções:
-    Cliente - Cadastro, Login, Comprar jogo, Ver lista de jogos da loja, Ver os jogos de sua biblioteca, Adicionar Saldo
-    Adm - Login, Adicionar jogo, Atualizar infos do jogo, Excluir jogo, Ver todos os jogos

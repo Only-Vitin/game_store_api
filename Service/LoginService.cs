@@ -1,15 +1,15 @@
 using System;
 using System.Text;
 using System.Linq;
-using web_api.Data;
 using System.Security.Claims;
 using BCryptNet = BCrypt.Net.BCrypt;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 
 using game_store_api.Dto;
-using game_store_api.Models;
+using game_store_api.Data;
 using game_store_api.Utils;
+using game_store_api.Entities;
 
 namespace game_store_api.Service
 {
