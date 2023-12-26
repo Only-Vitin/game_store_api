@@ -1,16 +1,11 @@
-using System;
-using AutoMapper;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using Microsoft.AspNetCore.Authorization;
 
-using game_store_api.Dto;
 using game_store_api.Data;
-using game_store_api.Utils;
-using game_store_api.Service;
 using game_store_api.Entities;
+using game_store_api.Utils;
+using System;
 
 namespace game_store_api.Controllers
 {
@@ -19,18 +14,55 @@ namespace game_store_api.Controllers
     public class BuyGameController : ControllerBase
     {
         private readonly Context _context;
-        private readonly IMapper _mapper;
 
-        public BuyGameController(Context context, IMapper mapper)
+        public BuyGameController(Context context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         [HttpPost("user/{userId}/game/{gameId}")]
-        public IActionResult BuyGame()
+        [Authorize(Roles = "user")]
+        public IActionResult BuyGame(int userId, int gameId)
         {
-            return Ok("OIII");
+            User userToBuy = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
+            Game gameToBuy = _context.Game.Where(u => u.GameId == gameId).SingleOrDefault();
+
+            Response.Headers.Add("Date", $"{DateTime.Now}");
+            if(userToBuy == null)
+            {
+                CustomMessage message = new("Usuário não encontrado");
+                return NotFound(message);
+            }
+            if(gameToBuy == null)
+            {
+                CustomMessage message = new("Jogo não encontrado");
+                return NotFound();
+            }
+                
+            //Verifica se é maior 18(Separar)
+            if(gameToBuy.Over18)
+            {
+                if(userToBuy.Age < 18) return Forbid("Necessário ter mais de 18 anos para comprar esse jogo");
+            }
+
+            //Verifica se tem saldo(Separar)
+            if(userToBuy.Balance < gameToBuy.Price) return Forbid("Saldo insuficiente");
+            
+            //Remove valor do saldo(Separar)
+            userToBuy.Balance -= gameToBuy.Price;
+            
+            //Add na tabela
+            PurchasedGames newPurchase = new()
+            {
+                UserId = userId,
+                GameId = gameId
+            };
+
+            _context.PurchasedGames.Add(newPurchase);
+            _context.SaveChanges();
+            
+            CustomMessage customMessage = new("Compra realizada");
+            return Ok(customMessage);
         }
     }
 }
