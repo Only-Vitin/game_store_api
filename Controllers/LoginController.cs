@@ -14,8 +14,8 @@ namespace game_store_api.Controllers
     [Route("[controller]")]
     public class LoginController : ControllerBase
     {
-        private Context _context;
-        private IMapper _mapper;
+        private readonly Context _context;
+        private readonly IMapper _mapper;
 
         public LoginController(Context context, IMapper mapper)
         {

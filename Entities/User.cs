@@ -40,5 +40,6 @@ namespace game_store_api.Entities
         public string Role { get; set; }
 
         public ICollection<Token> Tokens { get; set; }
+        public ICollection<PurchasedGames> PurchasedGames { get; set; }
     }
 }

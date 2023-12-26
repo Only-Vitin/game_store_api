@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace game_store_api.Entities
@@ -26,5 +27,7 @@ namespace game_store_api.Entities
 
         [Required(ErrorMessage = "Informe o preço do jogo")]
         public double Price { get; set; }
+
+        public ICollection<PurchasedGames> PurchasedGames { get; set; }
     }
 }

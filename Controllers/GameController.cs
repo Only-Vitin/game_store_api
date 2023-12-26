@@ -14,8 +14,8 @@ namespace game_store_api.Controllers
     [Route("[controller]")]
     public class GameController : ControllerBase
     {
-        private Context _context;
-        private IMapper _mapper;
+        private readonly Context _context;
+        private readonly IMapper _mapper;
 
         public GameController(Context context, IMapper mapper)
         {
