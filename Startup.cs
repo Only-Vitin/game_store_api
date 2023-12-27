@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 using game_store_api.Utils;
 using game_store_api.Data;
+using game_store_api.Controllers;
 
 namespace game_store_api
 {

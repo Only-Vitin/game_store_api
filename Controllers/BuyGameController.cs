@@ -7,6 +7,7 @@ using game_store_api.Data;
 using game_store_api.Entities;
 using game_store_api.Utils;
 using game_store_api.Service;
+using Microsoft.AspNetCore.Http;
 
 namespace game_store_api.Controllers
 {
@@ -41,12 +42,16 @@ namespace game_store_api.Controllers
             }
 
             if(!BuyGameService.VerifyOver18(gameToBuy.Over18, userToBuy.Age))
-            {
-                return Forbid("Necessário ter mais de 18 anos para comprar esse jogo");
+            {   
+                CustomMessage message = new("Necessário ter mais de 18 anos para comprar esse jogo");
+                return StatusCode(StatusCodes.Status403Forbidden, message);
             }
 
-            if(userToBuy.Balance < gameToBuy.Price) return Forbid("Saldo insuficiente");
-            
+            if(userToBuy.Balance < gameToBuy.Price) 
+            {
+                CustomMessage message = new("Saldo insuficiente");
+                return StatusCode(StatusCodes.Status403Forbidden, message);
+            }
 
             userToBuy.Balance -= gameToBuy.Price;
             BuyGameService.AddPurchaseOnDb(userId, gameId, _context);
