@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace game_store_api.Dto
 {
-    public class GameDto
+    public class PostGameDto
     {
         [Required(ErrorMessage = "Informe o nome do jogo")]
         public string Name { get; set; }

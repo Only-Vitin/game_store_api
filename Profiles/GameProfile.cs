@@ -9,8 +9,8 @@ namespace game_store_api.Profiles
     {
         public GameProfile()
         {
-            CreateMap<GameDto, Game>();
-            CreateMap<Game, GameDto>();
+            CreateMap<PostGameDto, Game>();
+            CreateMap<Game, PostGameDto>();
             CreateMap<Game, GetGameDto>();
         }
     } 

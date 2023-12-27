@@ -41,14 +41,14 @@ namespace game_store_api.Controllers
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedGame == null) return NotFound();
 
-            GameDto selectedGameDto = _mapper.Map<GameDto>(selectedGame);
+            PostGameDto selectedGameDto = _mapper.Map<PostGameDto>(selectedGame);
 
             return Ok(selectedGameDto);
         }
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public IActionResult PostGame([FromBody] GameDto gameDto)
+        public IActionResult PostGame([FromBody] PostGameDto gameDto)
         {
             Game game = _mapper.Map<Game>(gameDto);
             _context.Game.Add(game);
@@ -62,7 +62,7 @@ namespace game_store_api.Controllers
 
         [HttpPut("{gameId}")]
         [Authorize(Roles = "admin")]
-        public IActionResult PutGame(int gameId, [FromBody] GameDto gameDto)
+        public IActionResult PutGame(int gameId, [FromBody] PostGameDto gameDto)
         {
             Game selectedGame = _context.Game.Where(g => g.GameId == gameId).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");

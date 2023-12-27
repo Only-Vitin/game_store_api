@@ -19,7 +19,7 @@ namespace game_store_api.Controllers
             _context = context;
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("user/{userId}")]
         [Authorize(Roles = "admin,user")]
         public IActionResult GetPurchasedGames(int userId)
         {
