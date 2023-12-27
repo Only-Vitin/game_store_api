@@ -26,6 +26,9 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "user")]
         public IActionResult BuyGame(int userId, int gameId)
         {
+            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
+            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
+            
             User userToBuy = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
             Game gameToBuy = _context.Game.Where(g => g.GameId == gameId).SingleOrDefault();
 

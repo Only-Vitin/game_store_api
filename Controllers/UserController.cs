@@ -30,6 +30,9 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult GetUser()
         {
+            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
+            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
+
             List<GetUserDto> usersDto = UserService.GetUserService(_context, _mapper);
             return Ok(usersDto);
         }
@@ -38,6 +41,9 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin,user")]
         public IActionResult GetUserById(int userId)
         {
+            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
+            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
+
             User selectedUser = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedUser == null) return NotFound();
@@ -65,8 +71,9 @@ namespace game_store_api.Controllers
         [HttpPut("{userId}")]
         [Authorize(Roles = "admin,user")]
         public IActionResult PutUser(int userId, [FromBody] PostUserDto userDto)
-        {   
+        {
             string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
+            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
             
             User selectedUser = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
@@ -81,6 +88,9 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin,user")]
         public IActionResult DeleteUser(int userId)
         {
+            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
+            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
+            
             User selectedUser = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedUser == null) return NotFound();

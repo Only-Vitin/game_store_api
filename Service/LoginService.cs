@@ -61,7 +61,7 @@ namespace game_store_api.Service
         {
             Token tokenClass = new()
             {
-                TokenValue = token,
+                TokenValue = $"Bearer {token}",
                 UserId = user.UserId,
                 ExpirationDate = DateTime.UtcNow.AddDays(10).ToString()
 
