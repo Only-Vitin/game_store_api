@@ -15,15 +15,15 @@ namespace game_store_api.Service
 {
     public class LoginService
     {
-        public bool VerifyEmailOnDb(LoginDto login, Context _context)
+        public static bool VerifyEmailOnDb(LoginDto login, Context _context)
         {
-            User anyUser = _context.User.Where(user => user.Email == login.Email).SingleOrDefault();
+            User anyUser = _context.User.Where(u => u.Email == login.Email).SingleOrDefault();
             if(anyUser == null) return false;
 
             return true;
         }
 
-        public bool VerifyPassword(LoginDto login, User user)
+        public static bool VerifyPassword(LoginDto login, User user)
         {
             string dbHashPassword = user.Password;
 
@@ -33,7 +33,7 @@ namespace game_store_api.Service
             
         }
 
-        public string CreateToken(User user)
+        public static string CreateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
@@ -57,14 +57,12 @@ namespace game_store_api.Service
             return tokenHandler.WriteToken(token);
         }
 
-        public User SaveTokenOnDb(User user, string token, Context _context)
+        public static User SaveTokenOnDb(User user, string token, Context _context)
         {
-            int userId = user.UserId;
-
             Token tokenClass = new()
             {
                 TokenValue = token,
-                UserId = userId,
+                UserId = user.UserId,
                 ExpirationDate = DateTime.UtcNow.AddDays(10).ToString()
 
             };

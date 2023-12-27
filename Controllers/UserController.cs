@@ -3,7 +3,6 @@ using AutoMapper;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using Microsoft.AspNetCore.Authorization;
 
 using game_store_api.Dto;
@@ -26,21 +25,20 @@ namespace game_store_api.Controllers
             _context = context;
             _mapper = mapper;
         }
-        private readonly UserService userService = new();
 
         [HttpGet]
         [Authorize(Roles = "admin")]
         public IActionResult GetUser()
         {
-            List<GetUserDto> usersDto = userService.GetUserService(_context, _mapper);
+            List<GetUserDto> usersDto = UserService.GetUserService(_context, _mapper);
             return Ok(usersDto);
         }
         
-        [HttpGet("{id}")]
+        [HttpGet("{userId}")]
         [Authorize(Roles = "admin,user")]
-        public IActionResult GetUserById(int id)
+        public IActionResult GetUserById(int userId)
         {
-            User selectedUser = _context.User.Where(i => i.UserId == id).SingleOrDefault();
+            User selectedUser = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedUser == null) return NotFound();
 
@@ -52,38 +50,38 @@ namespace game_store_api.Controllers
         [HttpPost]
         public IActionResult PostUser([FromBody] PostUserDto userDto)
         {
-            if(userService.VerifyEmailOnDb(userDto, _context))
+            if(UserService.VerifyEmailOnDb(userDto, _context))
             {
                 CustomMessage customMessage = new("O email já existe no banco de dados");
                 return Conflict(customMessage);
             }
             
-            GetUserDto userGetDto = userService.AddUserOnDb(userDto, _context, _mapper);
+            GetUserDto userGetDto = UserService.AddUserOnDb(userDto, _context, _mapper);
 
             Response.Headers.Add("Date", $"{DateTime.Now}");
-            return CreatedAtAction(nameof(GetUserById), new { Id = userGetDto.UserId }, userGetDto);
+            return CreatedAtAction(nameof(GetUserById), new { userGetDto.UserId }, userGetDto);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{userId}")]
         [Authorize(Roles = "admin,user")]
-        public IActionResult PutUser(int id, [FromBody] PostUserDto userDto)
+        public IActionResult PutUser(int userId, [FromBody] PostUserDto userDto)
         {   
             string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
             
-            User selectedUser = _context.User.Where(user => user.UserId == id).SingleOrDefault();
+            User selectedUser = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedUser == null) return NotFound();
 
-            userService.PutUserService(userDto, selectedUser, _context, _mapper);
+            UserService.PutUserService(userDto, selectedUser, _context, _mapper);
             
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{userId}")]
         [Authorize(Roles = "admin,user")]
-        public IActionResult DeleteUser(int id)
+        public IActionResult DeleteUser(int userId)
         {
-            User selectedUser = _context.User.Where(user => user.UserId == id).SingleOrDefault();
+            User selectedUser = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedUser == null) return NotFound();
 

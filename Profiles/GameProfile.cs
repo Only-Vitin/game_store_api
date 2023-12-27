@@ -11,6 +11,7 @@ namespace game_store_api.Profiles
         {
             CreateMap<GameDto, Game>();
             CreateMap<Game, GameDto>();
+            CreateMap<Game, GetGameDto>();
         }
     } 
 }

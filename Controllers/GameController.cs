@@ -2,11 +2,13 @@ using System;
 using AutoMapper;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 
 using game_store_api.Dto;
 using game_store_api.Data;
 using game_store_api.Entities;
+using game_store_api.Service;
 
 namespace game_store_api.Controllers
 {
@@ -24,17 +26,18 @@ namespace game_store_api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin,user")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetGame()
-        {
-            return Ok(_context.Game);
+        {   
+            List<GetGameDto> gamesDto = GameService.GetGameService(_context, _mapper);
+            return Ok(gamesDto);
         }
         
-        [HttpGet("{id}")]
+        [HttpGet("{gameId}")]
         [Authorize(Roles = "admin,user")]
-        public IActionResult GetGameById(int id)
+        public IActionResult GetGameById(int gameId)
         {
-            Game selectedGame = _context.Game.Where(i => i.GameId == id).SingleOrDefault();
+            Game selectedGame = _context.Game.Where(g => g.GameId == gameId).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedGame == null) return NotFound();
 
@@ -52,14 +55,16 @@ namespace game_store_api.Controllers
             _context.SaveChanges();
 
             Response.Headers.Add("Date", $"{DateTime.Now}");
-            return CreatedAtAction(nameof(GetGameById), new { Id = game.GameId }, game);
+
+            GetGameDto getGameDto = _mapper.Map<GetGameDto>(game);
+            return CreatedAtAction(nameof(GetGameById), new { gameId = getGameDto.GameId }, getGameDto);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{gameId}")]
         [Authorize(Roles = "admin")]
-        public IActionResult PutGame(int id, [FromBody] GameDto gameDto)
+        public IActionResult PutGame(int gameId, [FromBody] GameDto gameDto)
         {
-            Game selectedGame = _context.Game.Where(game => game.GameId == id).SingleOrDefault();
+            Game selectedGame = _context.Game.Where(g => g.GameId == gameId).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedGame == null) return NotFound();
 
@@ -69,11 +74,11 @@ namespace game_store_api.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{gameId}")]
         [Authorize(Roles = "admin")]
-        public IActionResult DeleteGame(int id)
+        public IActionResult DeleteGame(int gameId)
         {
-            Game selectedGame = _context.Game.Where(game => game.GameId == id).SingleOrDefault();
+            Game selectedGame = _context.Game.Where(g => g.GameId == gameId).SingleOrDefault();
             Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedGame == null) return NotFound();
 

@@ -11,15 +11,15 @@ namespace game_store_api.Service
 {
     public class UserService
     {
-        public bool VerifyEmailOnDb(PostUserDto userDto, Context _context)
+        public static bool VerifyEmailOnDb(PostUserDto userDto, Context _context)
         {
-            User anyUser = _context.User.Where(user => user.Email == userDto.Email).SingleOrDefault();
+            User anyUser = _context.User.Where(u => u.Email == userDto.Email).SingleOrDefault();
             if(anyUser == null) return false;
 
             return true;
         }
 
-        public List<GetUserDto> GetUserService(Context _context, IMapper _mapper)
+        public static List<GetUserDto> GetUserService(Context _context, IMapper _mapper)
         {
             List<GetUserDto> usersDto = new();
             foreach(User user in _context.User)
@@ -31,7 +31,7 @@ namespace game_store_api.Service
             return usersDto;
         }
 
-        public GetUserDto AddUserOnDb(PostUserDto userDto, Context _context, IMapper _mapper)
+        public static GetUserDto AddUserOnDb(PostUserDto userDto, Context _context, IMapper _mapper)
         {
             User user = _mapper.Map<User>(userDto);
             user.Password = BCryptNet.EnhancedHashPassword(user.Password, 13);
@@ -44,7 +44,7 @@ namespace game_store_api.Service
             return userGetDto;
         }
 
-        public void PutUserService(PostUserDto userDto,User selectedUser, Context _context, IMapper _mapper)
+        public static void PutUserService(PostUserDto userDto,User selectedUser, Context _context, IMapper _mapper)
         {
             userDto.Password = BCryptNet.EnhancedHashPassword(userDto.Password, 13);
             _mapper.Map(userDto, selectedUser);

@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using game_store_api.Data;
-using game_store_api.Entities;
-using game_store_api.Utils;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+
+using game_store_api.Data;
+using game_store_api.Utils;
+using game_store_api.Entities;
 
 namespace game_store_api.Controllers
 {

@@ -23,27 +23,25 @@ namespace game_store_api.Controllers
             _mapper = mapper;
         }
 
-        public readonly LoginService loginService = new();
-
         [HttpPost]
         public IActionResult Login([FromBody] LoginDto login)
         {
-            if(!loginService.VerifyEmailOnDb(login, _context))
+            if(!LoginService.VerifyEmailOnDb(login, _context))
             {
                 CustomMessage customMessage = new("O email não foi encontrado. Verifique suas credenciais ou registre-se para uma nova conta");
                 return NotFound(customMessage);
             }
 
-            User user = _context.User.Where(user => user.Email == login.Email).Single();
+            User user = _context.User.Where(u => u.Email == login.Email).Single();
             
-            if(!loginService.VerifyPassword(login, user))
+            if(!LoginService.VerifyPassword(login, user))
             {
                 CustomMessage customMessage = new("Senha incorreta");
                 return Unauthorized(customMessage);
             }
             
-            string token = loginService.CreateToken(user);
-            loginService.SaveTokenOnDb(user, token, _context);
+            string token = LoginService.CreateToken(user);
+            LoginService.SaveTokenOnDb(user, token, _context);
 
             //
             GetUserDto getUserDto = _mapper.Map<GetUserDto>(user);
