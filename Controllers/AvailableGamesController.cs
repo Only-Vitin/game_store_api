@@ -12,7 +12,7 @@ using game_store_api.Entities;
 namespace game_store_api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AvailableGamesController : ControllerBase
     {
         private readonly Context _context;
@@ -23,7 +23,7 @@ namespace game_store_api.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        [Authorize(Roles = "user")]
+        [Authorize(Roles = "admin,user")]
         public IActionResult GetAvailableGames(int userId)
         {
             Response.Headers.Add("Date", $"{DateTime.Now}");

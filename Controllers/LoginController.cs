@@ -12,7 +12,7 @@ using game_store_api.Entities;
 namespace game_store_api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
         private readonly Context _context;
