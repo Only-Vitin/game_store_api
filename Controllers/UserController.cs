@@ -30,6 +30,8 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult GetUser()
         {
+            Response.Headers.Add("Date", $"{DateTime.Now}");
+
             string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
             if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
 
@@ -41,21 +43,23 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin,user")]
         public IActionResult GetUserById(int userId)
         {
+            Response.Headers.Add("Date", $"{DateTime.Now}");
+
             string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
             if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
 
             User selectedUser = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
-            Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedUser == null) return NotFound();
 
             GetUserByIdDto selectedUserDto = _mapper.Map<GetUserByIdDto>(selectedUser);
-
             return Ok(selectedUserDto);
         }
 
         [HttpPost]
         public IActionResult PostUser([FromBody] PostUserDto userDto)
         {
+            Response.Headers.Add("Date", $"{DateTime.Now}");
+
             if(UserService.VerifyEmailOnDb(userDto, _context))
             {
                 CustomMessage customMessage = new("O email já existe no banco de dados");
@@ -63,8 +67,6 @@ namespace game_store_api.Controllers
             }
             
             GetUserDto userGetDto = UserService.AddUserOnDb(userDto, _context, _mapper);
-
-            Response.Headers.Add("Date", $"{DateTime.Now}");
             return CreatedAtAction(nameof(GetUserById), new { userGetDto.UserId }, userGetDto);
         }
 
@@ -72,15 +74,16 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin,user")]
         public IActionResult PutUser(int userId, [FromBody] PostUserDto userDto)
         {
+            Response.Headers.Add("Date", $"{DateTime.Now}");
+            
             string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
             if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
             
             User selectedUser = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
-            Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedUser == null) return NotFound();
 
             UserService.PutUserService(userDto, selectedUser, _context, _mapper);
-            
+
             return NoContent();
         }
 
@@ -88,11 +91,12 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin,user")]
         public IActionResult DeleteUser(int userId)
         {
+            Response.Headers.Add("Date", $"{DateTime.Now}");
+
             string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
             if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
             
             User selectedUser = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
-            Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedUser == null) return NotFound();
 
             _context.Remove(selectedUser);

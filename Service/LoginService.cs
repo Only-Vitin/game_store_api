@@ -26,7 +26,6 @@ namespace game_store_api.Service
         public static bool VerifyPassword(LoginDto login, User user)
         {
             string dbHashPassword = user.Password;
-
             bool correctPassword = BCryptNet.EnhancedVerify(login.Password, dbHashPassword);
 
             return correctPassword;

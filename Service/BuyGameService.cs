@@ -16,7 +16,7 @@ namespace game_store_api.Service
 
         public static void AddPurchaseOnDb(int userId, int gameId, Context _context)
         {
-             PurchasedGames newPurchase = new()
+            PurchasedGames newPurchase = new()
             {
                 UserId = userId,
                 GameId = gameId

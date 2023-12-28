@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace game_store_api.Entities
 {
     public class Game
-    {
+    { 
         [Key]
         [Required]
         public int GameId { get; set; }

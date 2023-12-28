@@ -1,13 +1,13 @@
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 
 using game_store_api.Data;
-using game_store_api.Entities;
 using game_store_api.Utils;
 using game_store_api.Service;
-using Microsoft.AspNetCore.Http;
+using game_store_api.Entities;
 
 namespace game_store_api.Controllers
 {
@@ -26,13 +26,14 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "user")]
         public IActionResult BuyGame(int userId, int gameId)
         {
+            Response.Headers.Add("Date", $"{DateTime.Now}");
+
             string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
             if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
             
             User userToBuy = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
             Game gameToBuy = _context.Game.Where(g => g.GameId == gameId).SingleOrDefault();
 
-            Response.Headers.Add("Date", $"{DateTime.Now}");
             if(userToBuy == null)
             {
                 CustomMessage message = new("Usuário não encontrado");
@@ -41,7 +42,7 @@ namespace game_store_api.Controllers
             if(gameToBuy == null)
             {
                 CustomMessage message = new("Jogo não encontrado");
-                return NotFound();
+                return NotFound(message);
             }
 
             if(!BuyGameService.VerifyOver18(gameToBuy.Over18, userToBuy.Age))

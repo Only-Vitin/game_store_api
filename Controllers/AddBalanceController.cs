@@ -24,11 +24,12 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "user")]
         public IActionResult AddBalanceByUserId(int userId, double value)
         {
+            Response.Headers.Add("Date", $"{DateTime.Now}");
+            
             string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
             if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
 
             User selectedUser = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
-            Response.Headers.Add("Date", $"{DateTime.Now}");
             if(selectedUser == null) return NotFound();
 
             selectedUser.Balance += value;

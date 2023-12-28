@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +23,12 @@ namespace game_store_api.Controllers
             _context = context;
             _mapper = mapper;
         }
-
+        
         [HttpPost]
         public IActionResult Login([FromBody] LoginDto login)
         {
+            Response.Headers.Add("Date", $"{DateTime.Now}");
+
             if(!LoginService.VerifyEmailOnDb(login, _context))
             {
                 CustomMessage customMessage = new("O email não foi encontrado. Verifique suas credenciais ou registre-se para uma nova conta");
@@ -44,8 +47,8 @@ namespace game_store_api.Controllers
             LoginService.SaveTokenOnDb(user, token, _context);
 
             //
-            GetUserDto getUserDto = _mapper.Map<GetUserDto>(user);
             Response.Headers.Add("Authorization", $"Bearer {token}");
+            GetUserDto getUserDto = _mapper.Map<GetUserDto>(user);
             return Ok(getUserDto);
         }
     }
