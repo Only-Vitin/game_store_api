@@ -1,11 +1,10 @@
+using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 
 using game_store_api.Data;
-using game_store_api.Utils;
 using game_store_api.Service;
 using game_store_api.Entities;
 

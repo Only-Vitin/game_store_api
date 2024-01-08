@@ -8,7 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 using game_store_api.Dto;
 using game_store_api.Data;
-using game_store_api.Utils;
+using game_store_api.Helper;
 using game_store_api.Entities;
 
 namespace game_store_api.Service
@@ -28,14 +28,13 @@ namespace game_store_api.Service
             string dbHashPassword = user.Password;
             bool correctPassword = BCryptNet.EnhancedVerify(login.Password, dbHashPassword);
 
-            return correctPassword;
-            
+            return correctPassword;    
         }
 
         public static string CreateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(Settings.Secret);
+            var key = Encoding.ASCII.GetBytes(Secret.Word);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

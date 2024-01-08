@@ -11,8 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-using game_store_api.Utils;
 using game_store_api.Data;
+using game_store_api.Helper;
 
 namespace game_store_api
 {

@@ -1,11 +1,9 @@
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
-using game_store_api.Data;
 using game_store_api.Entities;
 using game_store_api.Interfaces;
 using game_store_api.Storage;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace game_store_api.Utils
 {
