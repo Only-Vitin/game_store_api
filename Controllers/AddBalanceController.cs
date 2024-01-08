@@ -1,42 +1,43 @@
-using System;
-using System.Linq;
+//first implementation ready
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-using game_store_api.Data;
-using game_store_api.Utils;
 using game_store_api.Entities;
+using game_store_api.Interfaces;
 
 namespace game_store_api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AddBalance : ControllerBase
+    public class AddBalanceController : ControllerBase
     {
-        private readonly Context _context;
+        private readonly IAuthHelper _authHelper;
+        private readonly IResponseHelper _respHelper;
+        private readonly IUserStorage _userStorage;
+        private readonly IUserService _userService;
 
-        public AddBalance(Context context)
+        public AddBalanceController(IAuthHelper authHelper, IResponseHelper respHelper)
         {
-            _context = context;
+            _authHelper = authHelper;
+            _respHelper = respHelper;
         }
 
         [HttpPost("user/{userId}/value/{value}")]
         [Authorize(Roles = "user")]
         public IActionResult AddBalanceByUserId(int userId, double value)
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
-            
-            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
-            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
+            _respHelper.AddDateHeaders();
 
-            User selectedUser = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
+            if(!_authHelper.VerifyTokenOnDb()) return Unauthorized();
+
+            User selectedUser = _userStorage.SelectById(userId);
             if(selectedUser == null) return NotFound();
 
-            selectedUser.Balance += value;
-            _context.SaveChanges();
-            
-            CustomMessage customMessage = new("Valor adicionado com sucesso");
-            return Ok(customMessage);
+            _userService.AddBalanceService(selectedUser, value);
+
+            _respHelper.BodyMessage = "Valor adicionado com sucesso";
+            return Ok(_respHelper.BodyMessage);
         }
     }
 }

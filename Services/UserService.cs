@@ -6,12 +6,21 @@ using BCryptNet = BCrypt.Net.BCrypt;
 using game_store_api.Dto;
 using game_store_api.Data;
 using game_store_api.Entities;
+using game_store_api.Interfaces;
 
 namespace game_store_api.Service
 {
-    public class UserService
-    { 
-        public static bool VerifyEmailOnDb(PostUserDto userDto, Context _context)
+    public class UserService : IUserService
+    {
+        private readonly Context _context;
+        private readonly IMapper _mapper;
+
+        public UserService(Context context)
+        {
+            _context = context;
+        }
+
+        public bool VerifyEmailOnDb(PostUserDto userDto)
         {
             User anyUser = _context.User.Where(u => u.Email == userDto.Email).SingleOrDefault();
             if(anyUser == null) return false;
@@ -19,7 +28,7 @@ namespace game_store_api.Service
             return true;
         }
 
-        public static List<GetUserDto> GetUserService(Context _context, IMapper _mapper)
+        public List<GetUserDto> GetUserService()
         {
             List<GetUserDto> usersDto = new();
             foreach(User user in _context.User)
@@ -31,7 +40,7 @@ namespace game_store_api.Service
             return usersDto;
         }
 
-        public static GetUserDto AddUserOnDb(PostUserDto userDto, Context _context, IMapper _mapper)
+        public GetUserDto AddUserOnDb(PostUserDto userDto)
         {
             User user = _mapper.Map<User>(userDto);
             user.Password = BCryptNet.EnhancedHashPassword(user.Password, 13);
@@ -44,10 +53,16 @@ namespace game_store_api.Service
             return userGetDto;
         }
 
-        public static void PutUserService(PostUserDto userDto,User selectedUser, Context _context, IMapper _mapper)
+        public void PutUserService(PostUserDto userDto,User selectedUser)
         {
             userDto.Password = BCryptNet.EnhancedHashPassword(userDto.Password, 13);
             _mapper.Map(userDto, selectedUser);
+            _context.SaveChanges();
+        }
+
+        public void AddBalanceService(User selectedUser, double value)
+        {
+            selectedUser.Balance += value;
             _context.SaveChanges();
         }
     }
