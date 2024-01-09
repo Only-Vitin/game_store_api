@@ -6,6 +6,6 @@ namespace game_store_api.Interfaces
 {
     public interface IPurchasedGamesService
     {
-        public List<Game> SelectPurchasedGames(int userId);
+        List<Game> SelectPurchasedGames(int userId);
     }
 }

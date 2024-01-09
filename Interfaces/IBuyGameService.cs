@@ -4,9 +4,9 @@ namespace game_store_api.Interfaces
 {
     public interface IBuyGameService
     {
-        public bool VerifyOver18(bool over18, int age);
-        public void AddPurchaseOnDb(int userId, int gameId);
-        public string ValidProvidedId(User selectedUser, Game selectedGame);
-        public string ValidUserForPurchase(User selectedUser, Game selectedGame);
+        bool VerifyOver18(bool over18, int age);
+        void AddPurchaseOnDb(int userId, int gameId);
+        string ValidProvidedId(User selectedUser, Game selectedGame);
+        string ValidUserForPurchase(User selectedUser, Game selectedGame);
     }
 }

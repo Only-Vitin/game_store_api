@@ -5,9 +5,9 @@ namespace game_store_api.Interfaces
 {
     public interface IGameStorage
     {
-        public Game SelectById(int gameId);
-        public void AddGame(Game game);
-        public void PutGame(PostGameDto gameDto, Game game);
-        public void RemoveGame(Game game);
+        Game SelectById(int gameId);
+        void AddGame(Game game);
+        void PutGame(PostGameDto gameDto, Game game);
+        void RemoveGame(Game game);
     }
 }

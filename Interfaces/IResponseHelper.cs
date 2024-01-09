@@ -4,7 +4,7 @@ namespace game_store_api.Interfaces
 {
     public interface IResponseHelper
     {    
-        public void AddDateHeaders(HttpResponse response);
-        public void AddTokenHeaders(HttpResponse responde, string token);
+        void AddDateHeaders(HttpResponse response);
+        void AddTokenHeaders(HttpResponse responde, string token);
     }
 }

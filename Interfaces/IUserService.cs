@@ -7,10 +7,10 @@ namespace game_store_api.Interfaces
 {
     public interface IUserService
     {
-        public List<GetUserDto> GetUserService();
-        public GetUserDto AddUserOnDb(PostUserDto userDto);
-        public bool VerifyEmailOnDb(PostUserDto userDto);
-        public void PutUserService(PostUserDto userDto,User selectedUser);
-        public void AddBalanceService(User selectedUser, double value);
+        List<GetUserDto> GetUserService();
+        GetUserDto AddUserOnDb(PostUserDto userDto);
+        bool VerifyEmailOnDb(PostUserDto userDto);
+        void PutUserService(PostUserDto userDto,User selectedUser);
+        void AddBalanceService(User selectedUser, double value);
     }
 }

@@ -6,6 +6,6 @@ namespace game_store_api.Interfaces
 {
     public interface IGameService
     {
-        public List<GetGameDto> GetGameService();
+        List<GetGameDto> GetGameService();
     }
 }

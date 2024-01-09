@@ -5,9 +5,9 @@ namespace game_store_api.Interfaces
 {
     public interface ILoginService
     {
-        public bool VerifyEmailOnDb(LoginDto login);
-        public bool VerifyPassword(LoginDto login, User user);
-        public string CreateToken(User user);
-        public User SaveTokenOnDb(User user, string token);
+        bool VerifyEmailOnDb(LoginDto login);
+        bool VerifyPassword(LoginDto login, User user);
+        string CreateToken(User user);
+        User SaveTokenOnDb(User user, string token);
     }
 }
