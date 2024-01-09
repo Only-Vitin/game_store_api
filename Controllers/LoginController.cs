@@ -1,12 +1,10 @@
-using System;
 using AutoMapper;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
 using game_store_api.Dto;
-using game_store_api.Data;
-using game_store_api.Service;
+using game_store_api.Helper;
 using game_store_api.Entities;
+using game_store_api.Interfaces;
 
 namespace game_store_api.Controllers
 {
@@ -14,39 +12,40 @@ namespace game_store_api.Controllers
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
-        private readonly Context _context;
         private readonly IMapper _mapper;
+        private readonly IUserStorage _userStorage;
+        private readonly IResponseHelper _respHelper;
+        private readonly ILoginService _loginService;
 
-        public LoginController(Context context, IMapper mapper)
+        public LoginController(IMapper mapper, ILoginService loginService, IResponseHelper respHelper, IUserStorage userStorage)
         {
-            _context = context;
             _mapper = mapper;
+            _userStorage = userStorage;
+            _respHelper = respHelper;
+            _loginService = loginService;
         }
         
         [HttpPost]
         public IActionResult Login([FromBody] LoginDto login)
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
+            _respHelper.AddDateHeaders(Response);
 
-            if(!LoginService.VerifyEmailOnDb(login, _context))
+            if(!_loginService.VerifyEmailOnDb(login))
             {
-                CustomMessage customMessage = new("O email não foi encontrado. Verifique suas credenciais ou registre-se para uma nova conta");
-                return NotFound(customMessage);
+                return NotFound(new CustomMessage("O email não foi encontrado. Verifique suas credenciais ou registre-se para uma nova conta"));
             }
 
-            User user = _context.User.Where(u => u.Email == login.Email).Single();
+            User user = _userStorage.SelectByEmail(login);
             
-            if(!LoginService.VerifyPassword(login, user))
+            if(!_loginService.VerifyPassword(login, user))
             {
-                CustomMessage customMessage = new("Senha incorreta");
-                return Unauthorized(customMessage);
+                return Unauthorized(new CustomMessage("Senha incorreta"));
             }
             
-            string token = LoginService.CreateToken(user);
-            LoginService.SaveTokenOnDb(user, token, _context);
+            string token = _loginService.CreateToken(user);
+            _loginService.SaveTokenOnDb(user, token);
 
-            //
-            Response.Headers.Add("Authorization", $"Bearer {token}");
+            _respHelper.AddTokenHeaders(Response, token);
             GetUserDto getUserDto = _mapper.Map<GetUserDto>(user);
             return Ok(getUserDto);
         }

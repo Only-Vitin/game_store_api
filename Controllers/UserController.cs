@@ -1,14 +1,12 @@
-using System;
 using AutoMapper;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 
 using game_store_api.Dto;
-using game_store_api.Data;
-using game_store_api.Service;
+using game_store_api.Helper;
 using game_store_api.Entities;
+using game_store_api.Interfaces;
 
 namespace game_store_api.Controllers
 {
@@ -16,25 +14,30 @@ namespace game_store_api.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly Context _context;
         private readonly IMapper _mapper;
+        private readonly IAuthHelper _authHelper;
+        private readonly IResponseHelper _respHelper;
+        private readonly IUserService _userService;
+        private readonly IUserStorage _userStorage;
 
-        public UserController(Context context, IMapper mapper)
+        public UserController(IAuthHelper authHelper, IResponseHelper respHelper,
+            IUserService userService, IMapper mapper, IUserStorage userStorage)
         {
-            _context = context;
-            _mapper = mapper;
+            _authHelper = authHelper;
+            _respHelper = respHelper;
+            _userService = userService;
+            _userStorage = userStorage;
+            _mapper  = mapper;
         }
 
         [HttpGet]
         [Authorize(Roles = "admin")]
         public IActionResult GetUser()
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
+            _respHelper.AddDateHeaders(Response);
+            if(!_authHelper.VerifyTokenOnDb(Request)) return Unauthorized();
 
-            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
-            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
-
-            List<GetUserDto> usersDto = UserService.GetUserService(_context, _mapper);
+            List<GetUserDto> usersDto = _userService.GetUserService();
             return Ok(usersDto);
         }
         
@@ -42,30 +45,27 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin,user")]
         public IActionResult GetUserById(int userId)
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
+            _respHelper.AddDateHeaders(Response);
+            if(!_authHelper.VerifyTokenOnDb(Request)) return Unauthorized();
 
-            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
-            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
+            User user = _userStorage.SelectById(userId);
+            if(user == null) return NotFound();
 
-            User selectedUser = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
-            if(selectedUser == null) return NotFound();
-
-            GetUserByIdDto selectedUserDto = _mapper.Map<GetUserByIdDto>(selectedUser);
-            return Ok(selectedUserDto);
+            GetUserByIdDto userDto = _mapper.Map<GetUserByIdDto>(user);
+            return Ok(userDto);
         }
 
         [HttpPost]
         public IActionResult PostUser([FromBody] PostUserDto userDto)
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
+            _respHelper.AddDateHeaders(Response);
 
-            if(UserService.VerifyEmailOnDb(userDto, _context))
+            if(_userService.VerifyEmailOnDb(userDto))
             {
-                CustomMessage customMessage = new("O email já existe no banco de dados");
-                return Conflict(customMessage);
+                return Conflict(new CustomMessage("O email já existe no banco de dados"));
             }
             
-            GetUserDto userGetDto = UserService.AddUserOnDb(userDto, _context, _mapper);
+            GetUserDto userGetDto = _userService.AddUserOnDb(userDto);
             return CreatedAtAction(nameof(GetUserById), new { userGetDto.UserId }, userGetDto);
         }
 
@@ -73,15 +73,13 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin,user")]
         public IActionResult PutUser(int userId, [FromBody] PostUserDto userDto)
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
+            _respHelper.AddDateHeaders(Response);
+            if(!_authHelper.VerifyTokenOnDb(Request)) return Unauthorized();
             
-            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
-            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
-            
-            User selectedUser = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
-            if(selectedUser == null) return NotFound();
+            User user = _userStorage.SelectById(userId);
+            if(user == null) return NotFound();
 
-            UserService.PutUserService(userDto, selectedUser, _context, _mapper);
+            _userService.PutUserService(userDto, user);
 
             return NoContent();
         }
@@ -90,16 +88,13 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin,user")]
         public IActionResult DeleteUser(int userId)
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
-
-            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
-            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
+            _respHelper.AddDateHeaders(Response);
+            if(!_authHelper.VerifyTokenOnDb(Request)) return Unauthorized();
             
-            User selectedUser = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
-            if(selectedUser == null) return NotFound();
+            User user = _userStorage.SelectById(userId);
+            if(user == null) return NotFound();
 
-            _context.Remove(selectedUser);
-            _context.SaveChanges();
+            _userStorage.RemoveUser(user);
 
             return NoContent();
         }

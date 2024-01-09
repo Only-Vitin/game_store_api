@@ -1,8 +1,7 @@
-//first implementation ready
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
+using game_store_api.Helper;
 using game_store_api.Entities;
 using game_store_api.Interfaces;
 
@@ -17,27 +16,28 @@ namespace game_store_api.Controllers
         private readonly IUserStorage _userStorage;
         private readonly IUserService _userService;
 
-        public AddBalanceController(IAuthHelper authHelper, IResponseHelper respHelper)
+        public AddBalanceController(IAuthHelper authHelper, IResponseHelper respHelper,
+            IUserService userService, IUserStorage userStorage)
         {
             _authHelper = authHelper;
             _respHelper = respHelper;
+            _userService = userService;
+            _userStorage = userStorage;
         }
 
         [HttpPost("user/{userId}/value/{value}")]
         [Authorize(Roles = "user")]
         public IActionResult AddBalanceByUserId(int userId, double value)
         {
-            _respHelper.AddDateHeaders();
+            _respHelper.AddDateHeaders(Response);
+            if(!_authHelper.VerifyTokenOnDb(Request)) return Unauthorized();
 
-            if(!_authHelper.VerifyTokenOnDb()) return Unauthorized();
+            User user = _userStorage.SelectById(userId);
+            if(user == null) return NotFound();
 
-            User selectedUser = _userStorage.SelectById(userId);
-            if(selectedUser == null) return NotFound();
+            _userService.AddBalanceService(user, value);
 
-            _userService.AddBalanceService(selectedUser, value);
-
-            _respHelper.BodyMessage = "Valor adicionado com sucesso";
-            return Ok(_respHelper.BodyMessage);
+            return Ok(new CustomMessage("Valor adicionado com sucesso"));
         }
     }
 }

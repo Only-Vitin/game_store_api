@@ -1,12 +1,10 @@
-using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 
-using game_store_api.Data;
-using game_store_api.Service;
+using game_store_api.Helper;
 using game_store_api.Entities;
+using game_store_api.Interfaces;
 
 namespace game_store_api.Controllers
 {
@@ -14,53 +12,42 @@ namespace game_store_api.Controllers
     [Route("api/[controller]")]
     public class BuyGameController : ControllerBase
     {
-        private readonly Context _context;
+        private readonly IAuthHelper _authHelper;
+        private readonly IResponseHelper _respHelper;
+        private readonly IUserStorage _userStorage;
+        private readonly IGameStorage _gameStorage;
+        private readonly IBuyGameService _buyGameService;
 
-        public BuyGameController(Context context)
+        public BuyGameController(IAuthHelper authHelper, IResponseHelper respHelper,
+            IUserStorage userStorage, IGameStorage gameStorage, IBuyGameService buyGameService)
         {
-            _context = context;
+            _authHelper = authHelper;
+            _respHelper = respHelper;
+            _userStorage = userStorage;
+            _gameStorage = gameStorage;
+            _buyGameService = buyGameService;
         }
 
         [HttpPost("user/{userId}/game/{gameId}")]
         [Authorize(Roles = "user")]
         public IActionResult BuyGame(int userId, int gameId)
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
-
-            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
-            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
+            _respHelper.AddDateHeaders(Response);
+            if(!_authHelper.VerifyTokenOnDb(Request)) return Unauthorized();
             
-            User userToBuy = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
-            Game gameToBuy = _context.Game.Where(g => g.GameId == gameId).SingleOrDefault();
+            User user = _userStorage.SelectById(userId);
+            Game game = _gameStorage.SelectById(gameId);
 
-            if(userToBuy == null)
-            {
-                CustomMessage message = new("Usuário não encontrado");
-                return NotFound(message);
-            }
-            if(gameToBuy == null)
-            {
-                CustomMessage message = new("Jogo não encontrado");
-                return NotFound(message);
-            }
+            string response = _buyGameService.ValidProvidedId(user, game);
+            if(response != "Ok") return NotFound(new CustomMessage(response));
 
-            if(!BuyGameService.VerifyOver18(gameToBuy.Over18, userToBuy.Age))
-            {   
-                CustomMessage message = new("Necessário ter mais de 18 anos para comprar esse jogo");
-                return StatusCode(StatusCodes.Status403Forbidden, message);
-            }
+            response = _buyGameService.ValidUserForPurchase(user, game);
+            if(response != "Ok") return StatusCode(StatusCodes.Status403Forbidden, new CustomMessage(response));
 
-            if(userToBuy.Balance < gameToBuy.Price) 
-            {
-                CustomMessage message = new("Saldo insuficiente");
-                return StatusCode(StatusCodes.Status403Forbidden, message);
-            }
+            _userStorage.DiscountGamePrice(user, game);
+            _buyGameService.AddPurchaseOnDb(userId, gameId);
 
-            userToBuy.Balance -= gameToBuy.Price;
-            BuyGameService.AddPurchaseOnDb(userId, gameId, _context);
-           
-            CustomMessage customMessage = new("Compra realizada");
-            return Ok(customMessage);
+            return Ok(new CustomMessage("Compra efetuada"));
         }
     }
 }

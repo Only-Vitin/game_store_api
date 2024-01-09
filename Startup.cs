@@ -12,7 +12,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 using game_store_api.Data;
+using game_store_api.Utils;
 using game_store_api.Helper;
+using game_store_api.Storage;
+using game_store_api.Service;
+using game_store_api.Interfaces;
 
 namespace game_store_api
 {
@@ -27,6 +31,18 @@ namespace game_store_api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<TokenStorage>();
+            services.AddScoped<IAuthHelper, AuthHelper>();
+            services.AddScoped<IGameService, GameService>();
+            services.AddScoped<IGameStorage, GameStorage>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserStorage, UserStorage>();
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IBuyGameService, BuyGameService>(); 
+            services.AddScoped<IResponseHelper, ResponseHelper>();
+            services.AddScoped<IPurchasedGamesService, PurchasedGamesService>();
+            services.AddScoped<IAvailableGamesService, AvailableGamesService>();
+
             services.AddCors();
             
             var key = Encoding.ASCII.GetBytes(Secret.Word);

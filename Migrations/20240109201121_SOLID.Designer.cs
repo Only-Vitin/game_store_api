@@ -8,8 +8,8 @@ using game_store_api.Data;
 namespace game_store_api.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20231227195629_Refactoring")]
-    partial class Refactoring
+    [Migration("20240109201121_SOLID")]
+    partial class SOLID
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

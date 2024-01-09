@@ -1,14 +1,11 @@
-using System;
 using AutoMapper;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 
 using game_store_api.Dto;
-using game_store_api.Data;
-using game_store_api.Service;
 using game_store_api.Entities;
+using game_store_api.Interfaces;
 
 namespace game_store_api.Controllers
 {
@@ -16,12 +13,19 @@ namespace game_store_api.Controllers
     [Route("api/[controller]")]
     public class GameController : ControllerBase
     {
-        private readonly Context _context;
         private readonly IMapper _mapper;
+        private readonly IAuthHelper _authHelper;
+        private readonly IResponseHelper _respHelper;
+        private readonly IGameService _gameService;
+        private readonly IGameStorage _gameStorage;
 
-        public GameController(Context context, IMapper mapper)
+        public GameController(IAuthHelper authHelper, IResponseHelper respHelper,
+            IMapper mapper, IGameService gameService, IGameStorage gameStorage)
         {
-            _context = context;
+            _gameService = gameService;
+            _gameStorage = gameStorage;
+            _authHelper = authHelper;
+            _respHelper = respHelper;
             _mapper = mapper;
         }
 
@@ -29,12 +33,10 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult GetGame()
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
+            _respHelper.AddDateHeaders(Response);
+            if(!_authHelper.VerifyTokenOnDb(Request)) return Unauthorized();
             
-            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
-            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
-            
-            List<GetGameDto> gamesDto = GameService.GetGameService(_context, _mapper);
+            List<GetGameDto> gamesDto = _gameService.GetGameService();
             return Ok(gamesDto);
         }
         
@@ -42,12 +44,10 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin,user")]
         public IActionResult GetGameById(int gameId)
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
+            _respHelper.AddDateHeaders(Response);
+            if(!_authHelper.VerifyTokenOnDb(Request)) return Unauthorized();
 
-            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
-            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
-
-            Game selectedGame = _context.Game.Where(g => g.GameId == gameId).SingleOrDefault();
+            Game selectedGame = _gameStorage.SelectById(gameId);
             if(selectedGame == null) return NotFound();
 
             PostGameDto selectedGameDto = _mapper.Map<PostGameDto>(selectedGame);
@@ -59,14 +59,11 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult PostGame([FromBody] PostGameDto gameDto)
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
-
-            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
-            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
+            _respHelper.AddDateHeaders(Response);
+            if(!_authHelper.VerifyTokenOnDb(Request)) return Unauthorized();
 
             Game game = _mapper.Map<Game>(gameDto);
-            _context.Game.Add(game);
-            _context.SaveChanges();
+            _gameStorage.AddGame(game);
 
             GetGameDto getGameDto = _mapper.Map<GetGameDto>(game);
             return CreatedAtAction(nameof(GetGameById), new { gameId = getGameDto.GameId }, getGameDto);
@@ -76,16 +73,13 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult PutGame(int gameId, [FromBody] PostGameDto gameDto)
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
+            _respHelper.AddDateHeaders(Response);
+            if(!_authHelper.VerifyTokenOnDb(Request)) return Unauthorized();
 
-            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
-            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
+            Game game = _gameStorage.SelectById(gameId);
+            if(game == null) return NotFound();
 
-            Game selectedGame = _context.Game.Where(g => g.GameId == gameId).SingleOrDefault();
-            if(selectedGame == null) return NotFound();
-
-            _mapper.Map(gameDto, selectedGame);
-            _context.SaveChanges();
+            _gameStorage.PutGame(gameDto, game);
             
             return NoContent();
         }
@@ -94,16 +88,13 @@ namespace game_store_api.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult DeleteGame(int gameId)
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
-
-            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
-            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
+            _respHelper.AddDateHeaders(Response);
+            if(!_authHelper.VerifyTokenOnDb(Request)) return Unauthorized();
             
-            Game selectedGame = _context.Game.Where(g => g.GameId == gameId).SingleOrDefault();
-            if(selectedGame == null) return NotFound();
+            Game game = _gameStorage.SelectById(gameId);
+            if(game == null) return NotFound();
 
-            _context.Remove(selectedGame);
-            _context.SaveChanges();
+            _gameStorage.RemoveGame(game);
 
             return NoContent();
         }

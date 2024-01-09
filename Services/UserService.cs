@@ -15,9 +15,10 @@ namespace game_store_api.Service
         private readonly Context _context;
         private readonly IMapper _mapper;
 
-        public UserService(Context context)
+        public UserService(Context context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public bool VerifyEmailOnDb(PostUserDto userDto)
@@ -53,10 +54,10 @@ namespace game_store_api.Service
             return userGetDto;
         }
 
-        public void PutUserService(PostUserDto userDto,User selectedUser)
+        public void PutUserService(PostUserDto userDto,User user)
         {
             userDto.Password = BCryptNet.EnhancedHashPassword(userDto.Password, 13);
-            _mapper.Map(userDto, selectedUser);
+            _mapper.Map(userDto, user);
             _context.SaveChanges();
         }
 

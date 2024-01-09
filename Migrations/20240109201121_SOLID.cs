@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace game_store_api.Migrations
 {
-    public partial class Refactoring : Migration
+    public partial class SOLID : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

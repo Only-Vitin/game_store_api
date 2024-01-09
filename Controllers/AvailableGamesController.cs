@@ -1,12 +1,9 @@
-using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 
-using game_store_api.Data;
-using game_store_api.Service;
 using game_store_api.Entities;
+using game_store_api.Interfaces;
 
 namespace game_store_api.Controllers
 {
@@ -14,25 +11,33 @@ namespace game_store_api.Controllers
     [Route("api/[controller]")]
     public class AvailableGamesController : ControllerBase
     {
-        private readonly Context _context;
+        private readonly IAuthHelper _authHelper;
+        private readonly IUserStorage _userStorage;
+        private readonly IResponseHelper _respHelper;
+        private readonly IAvailableGamesService _availableService;
 
-        public AvailableGamesController(Context context)
+        public AvailableGamesController(IAuthHelper authHelper, IResponseHelper respHelper,
+            IAvailableGamesService availableService, IUserStorage userStorage)
         {
-            _context = context;
+            _authHelper = authHelper;
+            _respHelper = respHelper;
+            _availableService = availableService;
+            _userStorage = userStorage;
         }
 
         [HttpGet("user/{userId}")]
         [Authorize(Roles = "admin,user")]
         public IActionResult GetAvailableGames(int userId)
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
+            _respHelper.AddDateHeaders(Response);
+            if(!_authHelper.VerifyTokenOnDb(Request)) return Unauthorized();
 
-            string authorization = Request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
-            if(!VerifyToken.VerifyTokenOnDb(authorization, _context)) return Unauthorized();
+            User user = _userStorage.SelectById(userId);
+            if(user == null) return NotFound();
 
-            List<Game> selectedGames = AvailableGamesService.SelectAvailableGames(_context, userId);
+            List<Game> games = _availableService.SelectAvailableGames(userId);
 
-            return Ok(selectedGames);
+            return Ok(games);
         }
     }
 }

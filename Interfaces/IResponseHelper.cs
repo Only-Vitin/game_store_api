@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Http;
+
 namespace game_store_api.Interfaces
 {
     public interface IResponseHelper
-    {
-        public string BodyMessage { get; set; }
-        
-        public void AddDateHeaders();
+    {    
+        public void AddDateHeaders(HttpResponse response);
+        public void AddTokenHeaders(HttpResponse responde, string token);
     }
 }

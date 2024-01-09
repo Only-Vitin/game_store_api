@@ -10,12 +10,20 @@ using game_store_api.Dto;
 using game_store_api.Data;
 using game_store_api.Helper;
 using game_store_api.Entities;
+using game_store_api.Interfaces;
 
 namespace game_store_api.Service
 {
-    public class LoginService
+    public class LoginService : ILoginService
     {
-        public static bool VerifyEmailOnDb(LoginDto login, Context _context)
+        private readonly Context _context;
+
+        public LoginService(Context context)
+        {
+            _context = context;
+        }
+
+        public bool VerifyEmailOnDb(LoginDto login)
         {
             User anyUser = _context.User.Where(u => u.Email == login.Email).SingleOrDefault();
             if(anyUser == null) return false;
@@ -23,7 +31,7 @@ namespace game_store_api.Service
             return true;
         }
 
-        public static bool VerifyPassword(LoginDto login, User user)
+        public bool VerifyPassword(LoginDto login, User user)
         {
             string dbHashPassword = user.Password;
             bool correctPassword = BCryptNet.EnhancedVerify(login.Password, dbHashPassword);
@@ -31,7 +39,7 @@ namespace game_store_api.Service
             return correctPassword;    
         }
 
-        public static string CreateToken(User user)
+        public string CreateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Secret.Word);
@@ -55,7 +63,7 @@ namespace game_store_api.Service
             return tokenHandler.WriteToken(token);
         }
 
-        public static User SaveTokenOnDb(User user, string token, Context _context)
+        public User SaveTokenOnDb(User user, string token)
         {
             Token tokenClass = new()
             {
