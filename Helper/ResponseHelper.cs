@@ -1,12 +1,11 @@
 using System;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 
 using game_store_api.Interfaces;
 
 namespace game_store_api.Helper
 {
-    public class ResponseHelper : Controller, IResponseHelper
+    public class ResponseHelper : IResponseHelper
     {
         public void AddDateHeaders(HttpResponse response)
         {

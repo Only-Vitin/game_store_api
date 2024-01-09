@@ -1,5 +1,4 @@
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 
 using game_store_api.Data;
 using game_store_api.Entities;
@@ -7,7 +6,7 @@ using game_store_api.Interfaces;
 
 namespace game_store_api.Service
 {
-    public class BuyGameService : Controller, IBuyGameService
+    public class BuyGameService : IBuyGameService
     {
         private readonly Context _context;
 

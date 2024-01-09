@@ -1,5 +1,4 @@
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 
 using game_store_api.Storage;
@@ -8,7 +7,7 @@ using game_store_api.Interfaces;
 
 namespace game_store_api.Utils
 {
-    public class AuthHelper : Controller, IAuthHelper
+    public class AuthHelper : IAuthHelper
     { 
         private static TokenStorage _tokenStorage;
         
