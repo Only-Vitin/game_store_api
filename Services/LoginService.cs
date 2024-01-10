@@ -8,14 +8,13 @@ using System.IdentityModel.Tokens.Jwt;
 
 using game_store_api.Dto;
 using game_store_api.Data;
-using game_store_api.Utils;
 using game_store_api.Entities;
 
-namespace game_store_api.Service
+namespace game_store_api.Services
 {
     public class LoginService
     { 
-        public static bool VerifyEmailOnDb(LoginDto login, Context _context)
+        public static bool VerifyEmailOnDb(LoginDto login, AppDbContext _context)
         {
             User anyUser = _context.User.Where(u => u.Email == login.Email).SingleOrDefault();
             if(anyUser == null) return false;
@@ -35,7 +34,7 @@ namespace game_store_api.Service
         public static string CreateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(Settings.Secret);
+            var key = Encoding.ASCII.GetBytes(Secret.Word);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -56,7 +55,7 @@ namespace game_store_api.Service
             return tokenHandler.WriteToken(token);
         }
 
-        public static User SaveTokenOnDb(User user, string token, Context _context)
+        public static User SaveTokenOnDb(User user, string token, AppDbContext _context)
         {
             Token tokenClass = new()
             {

@@ -1,7 +1,7 @@
 using game_store_api.Data;
 using game_store_api.Entities;
 
-namespace game_store_api.Service
+namespace game_store_api.Services
 {
     public class BuyGameService
     { 
@@ -14,7 +14,7 @@ namespace game_store_api.Service
             return true;
         }
 
-        public static void AddPurchaseOnDb(int userId, int gameId, Context _context)
+        public static void AddPurchaseOnDb(int userId, int gameId, AppDbContext _context)
         {
             PurchasedGames newPurchase = new()
             {

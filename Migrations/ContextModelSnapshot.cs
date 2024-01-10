@@ -6,7 +6,7 @@ using game_store_api.Data;
 
 namespace game_store_api.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(AppDbContext))]
     partial class ContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

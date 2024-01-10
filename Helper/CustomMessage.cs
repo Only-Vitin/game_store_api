@@ -1,4 +1,4 @@
-namespace game_store_api.Utils
+namespace game_store_api.Helper
 {   
     public class CustomMessage
     {

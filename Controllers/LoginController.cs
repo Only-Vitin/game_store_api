@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using game_store_api.Dto;
 using game_store_api.Data;
-using game_store_api.Utils;
-using game_store_api.Service;
+using game_store_api.Helper;
+using game_store_api.Services;
 using game_store_api.Entities;
 
 namespace game_store_api.Controllers
@@ -15,12 +15,10 @@ namespace game_store_api.Controllers
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
-        private readonly Context _context;
         private readonly IMapper _mapper;
 
-        public LoginController(Context context, IMapper mapper)
+        public LoginController(IMapper mapper)
         {
-            _context = context;
             _mapper = mapper;
         }
         

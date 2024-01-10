@@ -5,3 +5,6 @@ Necessidade tirar depencias da helper
 Melhorar lógica das services - principalmente a BuyGame
 Metodos privados, protegidos e publicos
 Criar storage da PurchasedGames
+
+----------------------------------------------------------------
+

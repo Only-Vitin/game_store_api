@@ -11,7 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-using game_store_api.Utils;
 using game_store_api.Data;
 
 namespace game_store_api
@@ -26,10 +25,14 @@ namespace game_store_api
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-        {
+        {   
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddDbContext<AppDbContext>(opts => opts.UseMySql(Configuration.GetConnectionString("Connection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("Connection"))));
+            services.AddControllers();
+
             services.AddCors();
-            
-            var key = Encoding.ASCII.GetBytes(Settings.Secret);
+
+            var key = Encoding.ASCII.GetBytes(Secret.Word);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -48,9 +51,6 @@ namespace game_store_api
                 };
             });
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddDbContext<Context>(opts => opts.UseMySql(Configuration.GetConnectionString("Connection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("Connection"))));
-            services.AddControllers();
 
             services.AddSwaggerGen(c =>
             {
@@ -68,7 +68,6 @@ namespace game_store_api
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseCors(x => x

@@ -4,9 +4,9 @@ using game_store_api.Entities;
 
 namespace game_store_api.Data
 {
-    public class Context : DbContext
+    public class AppDbContext : DbContext
     {
-        public Context(DbContextOptions<Context> opt) : base (opt){}
+        public AppDbContext(DbContextOptions<AppDbContext> opt) : base (opt){}
 
         public DbSet<Game> Game { get; set; }
         public DbSet<User> User { get; set; }
@@ -20,19 +20,15 @@ namespace game_store_api.Data
             modelBuilder.Entity<Token>().ToTable("Token");
             modelBuilder.Entity<PurchasedGames>().ToTable("PurchasedGames");
 
-            modelBuilder.Entity<Token>()
-            .HasKey(t => t.TokenId);
-            modelBuilder.Entity<User>()
-            .HasKey(t => t.UserId);
-            modelBuilder.Entity<Game>()
-            .HasKey(t => t.GameId);
-            modelBuilder.Entity<PurchasedGames>()
-            .HasKey(t => t.PurchasedGameId);
+            modelBuilder.Entity<Token>().HasKey(t => t.TokenId);
+            modelBuilder.Entity<User>().HasKey(t => t.UserId);
+            modelBuilder.Entity<Game>().HasKey(t => t.GameId);
+            modelBuilder.Entity<PurchasedGames>().HasKey(t => t.PurchasedGameId);
 
             modelBuilder.Entity<Token>()
-            .HasOne(t => t.User)
-            .WithMany(u => u.Tokens)
-            .HasForeignKey(t => t.UserId);
+                .HasOne(t => t.User)
+                .WithMany(u => u.Tokens)
+                .HasForeignKey(t => t.UserId);
 
             modelBuilder.Entity<PurchasedGames>()
                 .HasOne(upg => upg.User)

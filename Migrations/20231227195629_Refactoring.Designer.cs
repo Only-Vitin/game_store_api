@@ -7,7 +7,7 @@ using game_store_api.Data;
 
 namespace game_store_api.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20231227195629_Refactoring")]
     partial class Refactoring
     {
