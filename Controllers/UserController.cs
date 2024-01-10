@@ -12,7 +12,7 @@ using game_store_api.Service;
 using game_store_api.Entities;
 
 namespace game_store_api.Controllers
-{
+{ 
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase

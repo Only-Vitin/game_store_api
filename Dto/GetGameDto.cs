@@ -1,7 +1,7 @@
 namespace game_store_api.Dto
 {
     public class GetGameDto
-    {
+    { 
         public int GameId { get; set; }
         public string Name { get; set; }
         public string Genre { get; set; }

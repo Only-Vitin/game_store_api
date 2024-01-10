@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace game_store_api.Entities
 {
     public class Token
-    { 
+    {
         [Key]
         [Required]
         public int TokenId { get; set; }

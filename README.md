@@ -4,7 +4,7 @@
 
 ###
 ## Documentation
-
+ 
 ### User:
 **Returns all users**
 - **Route:** `GET /api​/user`

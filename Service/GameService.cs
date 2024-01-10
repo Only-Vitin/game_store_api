@@ -8,7 +8,7 @@ using game_store_api.Entities;
 namespace game_store_api.Service
 {
     public class GameService
-    { 
+    {
         public static List<GetGameDto> GetGameService(Context _context, IMapper _mapper)
         {
             List<GetGameDto> gamesDto = new();

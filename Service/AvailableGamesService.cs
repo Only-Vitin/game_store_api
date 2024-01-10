@@ -7,7 +7,7 @@ using game_store_api.Entities;
 namespace game_store_api.Service
 {
     public class AvailableGamesService
-    {
+    { 
         public static List<Game> SelectAvailableGames(Context _context, int userId)
         {
             List<int> selectedGamesId = _context.PurchasedGames.Where(pg => pg.UserId == userId).Select(pg => pg.GameId).ToList();

@@ -5,7 +5,7 @@ using game_store_api.Entities;
 namespace game_store_api.Data
 {
     public class Context : DbContext
-    { 
+    {
         public Context(DbContextOptions<Context> opt) : base (opt){}
 
         public DbSet<Game> Game { get; set; }

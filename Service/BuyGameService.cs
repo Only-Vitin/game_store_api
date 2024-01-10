@@ -4,7 +4,7 @@ using game_store_api.Entities;
 namespace game_store_api.Service
 {
     public class BuyGameService
-    {
+    { 
         public static bool VerifyOver18(bool over18, int age)
         {
             if(over18)

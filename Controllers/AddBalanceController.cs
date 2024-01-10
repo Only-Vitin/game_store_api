@@ -12,7 +12,7 @@ namespace game_store_api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     public class AddBalance : ControllerBase
-    {
+    { 
         private readonly Context _context;
 
         public AddBalance(Context context)

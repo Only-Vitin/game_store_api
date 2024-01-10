@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 namespace game_store_api.Dto
 {
     public class LoginDto
-    {
+    { 
         [Required(ErrorMessage = "Informe seu email")]
         [StringLength(200)]
         [DataType(DataType.EmailAddress)]

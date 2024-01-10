@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 namespace game_store_api.Dto
 {
     public class PostUserDto
-    {
+    { 
         [Required(ErrorMessage = "Informe seu nome")]
         [StringLength(100)]
         public string Name { get; set; }

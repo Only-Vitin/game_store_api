@@ -10,7 +10,7 @@ using game_store_api.Entities;
 namespace game_store_api.Service
 {
     public class UserService
-    { 
+    {
         public static bool VerifyEmailOnDb(PostUserDto userDto, Context _context)
         {
             User anyUser = _context.User.Where(u => u.Email == userDto.Email).SingleOrDefault();

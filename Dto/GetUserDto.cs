@@ -1,7 +1,7 @@
 namespace game_store_api.Dto
 {
     public class GetUserDto
-    {
+    { 
         public int UserId { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }

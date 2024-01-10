@@ -14,7 +14,7 @@ using game_store_api.Entities;
 namespace game_store_api.Service
 {
     public class LoginService
-    {
+    { 
         public static bool VerifyEmailOnDb(LoginDto login, Context _context)
         {
             User anyUser = _context.User.Where(u => u.Email == login.Email).SingleOrDefault();
