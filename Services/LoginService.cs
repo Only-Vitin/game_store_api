@@ -1,4 +1,5 @@
 using System;
+using AutoMapper;
 using System.Text;
 using System.Security.Claims;
 using BCryptNet = BCrypt.Net.BCrypt;
@@ -8,7 +9,6 @@ using System.IdentityModel.Tokens.Jwt;
 using game_store_api.Dto;
 using game_store_api.Data;
 using game_store_api.Entities;
-using AutoMapper;
 using game_store_api.Interfaces;
 
 namespace game_store_api.Services
