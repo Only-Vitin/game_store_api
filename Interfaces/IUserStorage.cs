@@ -9,9 +9,11 @@ namespace game_store_api.Interfaces
     {
         IEnumerable<User> GetAllUsers();
         User GetUserById(int userId);
-        User GetUserByEmail(PostUserDto userDto);
+        User GetUserByEmail(string email);
         void AddUser(User user);
         void UpdateUser(PostUserDto updatedUser, User user);
         void DeleteUser(User user);
+        void AddValueToBalance(User user, double value);
+        void RemoveValueFromBalance(User user, double value);
     }
 }

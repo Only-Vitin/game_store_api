@@ -1,20 +1,19 @@
-using game_store_api.Data;
 using game_store_api.Entities;
+using game_store_api.Interfaces;
 
 namespace game_store_api.Services
 {
     public class BuyGameService
-    { 
-        public static bool VerifyOver18(bool over18, int age)
+    {
+        private readonly IPurchasedGamesStorage _purchasedGamesStorage;
+ 
+        public BuyGameService(){}
+        public BuyGameService(IPurchasedGamesStorage purchasedGamesStorage)
         {
-            if(over18)
-            {
-                if(age < 18) return false;
-            }
-            return true;
+            _purchasedGamesStorage = purchasedGamesStorage;
         }
 
-        public static void AddPurchaseOnDb(int userId, int gameId, AppDbContext _context)
+        public void Add(int userId, int gameId)
         {
             PurchasedGames newPurchase = new()
             {
@@ -22,8 +21,21 @@ namespace game_store_api.Services
                 GameId = gameId
             };
 
-            _context.PurchasedGames.Add(newPurchase);
-            _context.SaveChanges();
+            _purchasedGamesStorage.AddNewPurchase(newPurchase);
+        }
+
+        public bool VerifyOver18(Game game, User user)
+        {
+            if(game.Over18)
+            {
+                if(user.Age < 18) return false;
+            }
+            return true;
+        }
+
+        public bool VerifyBalance(Game game, User user)
+        {
+            return user.Balance > game.Price;
         }
     }
 }

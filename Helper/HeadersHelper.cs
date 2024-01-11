@@ -12,5 +12,10 @@ namespace game_store_api.Helper
         {
             response.Headers.Add("Date", $"{DateTime.Now}");      
         }
+
+        public static void AddAuthorizationOnHeaders(HttpResponse response, string token)
+        {
+            response.Headers.Add("Authorization", $"Bearer {token}");
+        }
     }
 }

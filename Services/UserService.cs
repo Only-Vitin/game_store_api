@@ -10,28 +10,43 @@ namespace game_store_api.Services
 {
     public class UserService
     {
-        private readonly IUserStorage _userContext;
+        private readonly IUserStorage _userStorage;
         private readonly IMapper _mapper;
 
         public UserService(){}
-        public UserService(IUserStorage userContext, IMapper mapper)
+        public UserService(IUserStorage userStorage, IMapper mapper)
         {
-            _userContext = userContext;
+            _userStorage = userStorage;
             _mapper = mapper;
         }
 
-        public bool VerifyEmailOnDb(PostUserDto userDto)
+        public bool VerifyEmailOnDb(string email)
         {
-            User userOnDb = _userContext.GetUserByEmail(userDto);
+            User userOnDb = _userStorage.GetUserByEmail(email);
             if(userOnDb == null) return false;
 
             return true;
         }
 
+        public void AddBalance(User user, double value)
+        {
+            _userStorage.AddValueToBalance(user, value);
+        }
+
+        public void RemoveBalance(User user, double value)
+        {
+            _userStorage.RemoveValueFromBalance(user, value);
+        }
+
+        public User GetByEmail(string email)
+        {
+            return _userStorage.GetUserByEmail(email);
+        }
+
         public List<GetUserDto> Get()
         {
             List<GetUserDto> usersDto = new();
-            foreach(User user in _userContext.GetAllUsers())
+            foreach(User user in _userStorage.GetAllUsers())
             {
                 GetUserDto userGetDto = _mapper.Map<GetUserDto>(user);
                 usersDto.Add(userGetDto);
@@ -42,13 +57,13 @@ namespace game_store_api.Services
 
         public GetUserByIdDto GetByIdDto(int userId)
         {
-            User user = _userContext.GetUserById(userId);
+            User user = _userStorage.GetUserById(userId);
             return _mapper.Map<GetUserByIdDto>(user);
         }
 
         public User GetById(int userId)
         {
-            return _userContext.GetUserById(userId);
+            return _userStorage.GetUserById(userId);
         }
 
         public GetUserDto Post(PostUserDto userDto)
@@ -56,21 +71,20 @@ namespace game_store_api.Services
             User user = _mapper.Map<User>(userDto);
             user.Password = BCryptNet.EnhancedHashPassword(user.Password, 13);
 
-            _userContext.AddUser(user);
+            _userStorage.AddUser(user);
 
-            GetUserDto userGetDto = _mapper.Map<GetUserDto>(user);
-            return userGetDto;
+            return _mapper.Map<GetUserDto>(user);
         }
 
         public void Put(PostUserDto updatedUser, User user)
         {
             updatedUser.Password = BCryptNet.EnhancedHashPassword(updatedUser.Password, 13);
-            _userContext.UpdateUser(updatedUser, user);
+            _userStorage.UpdateUser(updatedUser, user);
         }
 
         public void Delete(User user)
         {
-            _userContext.DeleteUser(user);
+            _userStorage.DeleteUser(user);
         }
     }
 }

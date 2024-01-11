@@ -1,10 +1,7 @@
-using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 
-using game_store_api.Data;
 using game_store_api.Helper;
 using game_store_api.Services;
 using game_store_api.Entities;
@@ -16,6 +13,7 @@ namespace game_store_api.Controllers
     public class PurchasedGamesController : ControllerBase
     {
         private readonly AuthHelper _auth = new();
+        private readonly PurchasedGamesService _purchasedService = new();
 
         [HttpGet("user/{userId}")]
         [Authorize(Roles = "admin,user")]
@@ -24,9 +22,9 @@ namespace game_store_api.Controllers
             HeadersHelper.AddDateOnHeaders(Response);
             if(!_auth.ValidToken(Request)) return Unauthorized();
 
-            List<Game> selectedGames = PurchasedGamesService.SelectPurchasedGames(_context, userId);
+            List<Game> purchasedGames = _purchasedService.GetById(userId);
 
-            return Ok(selectedGames);
+            return Ok(purchasedGames);
         }
     }
 }

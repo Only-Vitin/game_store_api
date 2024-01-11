@@ -18,9 +18,9 @@ namespace game_store_api.Helper
 
         public bool ValidToken(HttpRequest request)
         {
-            string headersToken = request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
+            string authorization = request.Headers.Where(h => h.Key.ToString().Equals("Authorization")).SingleOrDefault().Value.ToString();
 
-            Token tokenOnDb = _context.Token.Where(t => t.TokenValue == headersToken).SingleOrDefault();
+            Token tokenOnDb = _context.Token.Where(t => t.TokenValue == authorization).SingleOrDefault();
             if(tokenOnDb == null) return false;
 
             return true;

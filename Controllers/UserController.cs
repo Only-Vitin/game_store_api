@@ -45,7 +45,7 @@ namespace game_store_api.Controllers
         {
             HeadersHelper.AddDateOnHeaders(Response);
 
-            if(_userService.VerifyEmailOnDb(userDto))
+            if(_userService.VerifyEmailOnDb(userDto.Email))
             {
                 return Conflict(new CustomMessage("O email já existe no banco de dados"));
             }

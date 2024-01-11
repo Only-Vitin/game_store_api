@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 using game_store_api.Data;
+using game_store_api.Interfaces;
+using game_store_api.Repository.Storage;
 
 namespace game_store_api
 {
@@ -26,6 +28,11 @@ namespace game_store_api
 
         public void ConfigureServices(IServiceCollection services)
         {   
+            services.AddScoped<IGameStorage, GameStorage>();
+            services.AddScoped<IPurchasedGamesStorage, PurchasedGamesStorage>();
+            services.AddScoped<IUserStorage, UserStorage>();
+            services.AddScoped<ITokenStorage, TokenStorage>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddDbContext<AppDbContext>(opts => opts.UseMySql(Configuration.GetConnectionString("Connection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("Connection"))));
             services.AddControllers();
@@ -50,7 +57,6 @@ namespace game_store_api
                     ValidateAudience = false
                 };
             });
-
 
             services.AddSwaggerGen(c =>
             {

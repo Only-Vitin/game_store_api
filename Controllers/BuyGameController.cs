@@ -1,21 +1,21 @@
-using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 
-using game_store_api.Data;
-using game_store_api.Entities;
 using game_store_api.Helper;
 using game_store_api.Services;
+using game_store_api.Entities;
 
 namespace game_store_api.Controllers
-{ 
+{
     [ApiController]
     [Route("api/[controller]")]
     public class BuyGameController : ControllerBase
     {
         private readonly AuthHelper _auth = new();
+        private readonly UserService _userService = new();
+        private readonly GameService _gameService = new();
+        private readonly BuyGameService _buyGameService = new();
 
         [HttpPost("user/{userId}/game/{gameId}")]
         [Authorize(Roles = "user")]
@@ -24,37 +24,28 @@ namespace game_store_api.Controllers
             HeadersHelper.AddDateOnHeaders(Response);
             if(!_auth.ValidToken(Request)) return Unauthorized();
             
-            User userToBuy = _context.User.Where(u => u.UserId == userId).SingleOrDefault();
-            Game gameToBuy = _context.Game.Where(g => g.GameId == gameId).SingleOrDefault();
+            User user = _userService.GetById(userId);
+            Game game = _gameService.GetById(gameId);
+            
+            if(user == null) return NotFound(new CustomMessage("Usuário não encontrado"));
+            if(game == null) return NotFound(new CustomMessage("Jogo não encontrado"));
 
-            if(userToBuy == null)
+            if(!_buyGameService.VerifyOver18(game, user))
             {
-                CustomMessage message = new("Usuário não encontrado");
-                return NotFound(message);
-            }
-            if(gameToBuy == null)
-            {
-                CustomMessage message = new("Jogo não encontrado");
-                return NotFound(message);
-            }
-
-            if(!BuyGameService.VerifyOver18(gameToBuy.Over18, userToBuy.Age))
-            {   
                 CustomMessage message = new("Necessário ter mais de 18 anos para comprar esse jogo");
                 return StatusCode(StatusCodes.Status403Forbidden, message);
             }
 
-            if(userToBuy.Balance < gameToBuy.Price) 
+            if(!_buyGameService.VerifyBalance(game, user))
             {
                 CustomMessage message = new("Saldo insuficiente");
                 return StatusCode(StatusCodes.Status403Forbidden, message);
             }
 
-            userToBuy.Balance -= gameToBuy.Price;
-            BuyGameService.AddPurchaseOnDb(userId, gameId, _context);
-           
-            CustomMessage customMessage = new("Compra realizada");
-            return Ok(customMessage);
+            _userService.RemoveBalance(user, game.Price);
+            _buyGameService.Add(userId, gameId);
+
+            return Ok(new CustomMessage("Compra realizada"));
         }
     }
 }

@@ -30,9 +30,9 @@ namespace game_store_api.Repository.Storage
             return _context.User.Where(u => u.UserId == userId).SingleOrDefault();
         }
 
-        public User GetUserByEmail(PostUserDto userDto)
+        public User GetUserByEmail(string email)
         {
-            return _context.User.Where(u => u.Email == userDto.Email).SingleOrDefault();
+            return _context.User.Where(u => u.Email == email).SingleOrDefault();
         }
 
         public void AddUser(User user)
@@ -50,6 +50,18 @@ namespace game_store_api.Repository.Storage
         public void DeleteUser(User user)
         {
             _context.Remove(user);
+            _context.SaveChanges();
+        }
+
+        public void AddValueToBalance(User user, double value)
+        {
+            user.Balance += value;
+            _context.SaveChanges();
+        }
+
+        public void RemoveValueFromBalance(User user, double value)
+        {
+            user.Balance -= value;
             _context.SaveChanges();
         }
     }

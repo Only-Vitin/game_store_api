@@ -4,50 +4,43 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
 using game_store_api.Dto;
-using game_store_api.Data;
 using game_store_api.Helper;
 using game_store_api.Services;
 using game_store_api.Entities;
 
 namespace game_store_api.Controllers
-{ 
+{
     [ApiController]
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
-        private readonly IMapper _mapper;
+        private readonly UserService _userService = new();
+        private readonly LoginService _loginService = new();
 
-        public LoginController(IMapper mapper)
+        public LoginController(UserService userService)
         {
-            _mapper = mapper;
+            _userService = userService;
         }
-        
+
         [HttpPost]
         public IActionResult Login([FromBody] LoginDto login)
         {
-            Response.Headers.Add("Date", $"{DateTime.Now}");
+            HeadersHelper.AddDateOnHeaders(Response);
 
-            if(!LoginService.VerifyEmailOnDb(login, _context))
+            User user = _userService.GetByEmail(login.Email);
+            if(user == null)
             {
-                CustomMessage customMessage = new("O email não foi encontrado. Verifique suas credenciais ou registre-se para uma nova conta");
-                return NotFound(customMessage);
+                CustomMessage message = new("O email não foi encontrado. Verifique suas credenciais ou registre-se para uma nova conta");
+                return NotFound(message);
             }
 
-            User user = _context.User.Where(u => u.Email == login.Email).Single();
-            
-            if(!LoginService.VerifyPassword(login, user))
-            {
-                CustomMessage customMessage = new("Senha incorreta");
-                return Unauthorized(customMessage);
-            }
-            
-            string token = LoginService.CreateToken(user);
-            LoginService.SaveTokenOnDb(user, token, _context);
+            if(!_loginService.VerifyPassword(login, user)) return Unauthorized(new CustomMessage("Senha incorreta"));
 
-            //
-            Response.Headers.Add("Authorization", $"Bearer {token}");
-            GetUserDto getUserDto = _mapper.Map<GetUserDto>(user);
-            return Ok(getUserDto);
+            string token = _loginService.CreateToken(user);
+            GetUserDto userDto = _loginService.SaveTokenOnDb(user, token);
+
+            HeadersHelper.AddAuthorizationOnHeaders(Response, token);
+            return Ok(userDto);
         }
     }
 }
