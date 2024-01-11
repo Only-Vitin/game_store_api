@@ -1,26 +1,26 @@
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 
-using game_store_api.Data;
 using game_store_api.Entities;
+using game_store_api.Interfaces;
 
 namespace game_store_api.Helper
 {
     public class AuthHelper
-    { 
-        private readonly AppDbContext _context;
+    {
+        private readonly ITokenStorage _tokenStorage;
 
         public AuthHelper(){}
-        public AuthHelper(AppDbContext context)
+        public AuthHelper(ITokenStorage tokenStorage)
         {
-            _context = context;
+            _tokenStorage = tokenStorage;
         }
 
         public bool ValidToken(HttpRequest request)
         {
-            string authorization = request.Headers.Where(h => h.Key.ToString().Equals("Authorization")).SingleOrDefault().Value.ToString();
+            string authorization = request.Headers.Where(h => h.Key == "Authorization").SingleOrDefault().Value.ToString();
 
-            Token tokenOnDb = _context.Token.Where(t => t.TokenValue == authorization).SingleOrDefault();
+            Token tokenOnDb = _tokenStorage.GetTokenByValue(authorization);
             if(tokenOnDb == null) return false;
 
             return true;

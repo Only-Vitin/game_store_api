@@ -1,3 +1,4 @@
+using System.Linq;
 using game_store_api.Data;
 using game_store_api.Entities;
 using game_store_api.Interfaces;
@@ -17,6 +18,11 @@ namespace game_store_api.Repository.Storage
         {
             _context.Token.Add(tokenClass);
             _context.SaveChanges();
+        }
+        
+        public Token GetTokenByValue(string value)
+        {
+            return _context.Token.Where(t => t.TokenValue == value).SingleOrDefault();
         }
     }
 }
