@@ -12,9 +12,10 @@ namespace game_store_api.Services
         private readonly IPurchasedGamesStorage _purchasedStorage;
         private readonly IGameStorage _gameStorage;
 
-        public PurchasedGamesService(IPurchasedGamesStorage purchasedStorage)
+        public PurchasedGamesService(IPurchasedGamesStorage purchasedStorage, IGameStorage gameStorage)
         {
             _purchasedStorage = purchasedStorage;
+            _gameStorage = gameStorage;
         }
 
         public List<Game> GetById(int userId)

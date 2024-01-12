@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 
 using game_store_api.Helper;
-using game_store_api.Services;
 using game_store_api.Entities;
 using game_store_api.ServicesInterfaces;
 
@@ -38,6 +37,8 @@ namespace game_store_api.Controllers
             
             if(user == null) return NotFound(new CustomMessage("Usuário não encontrado"));
             if(game == null) return NotFound(new CustomMessage("Jogo não encontrado"));
+
+            if(_buyGameService.VerifyAlreadyPurchased(game, user)) return Conflict(new CustomMessage("O jogo já foi comprado"));
 
             if(!_buyGameService.VerifyOver18(game, user))
             {

@@ -55,6 +55,7 @@ namespace game_store_api.Controllers
             {
                 return Conflict(new CustomMessage("O email já existe no banco de dados"));
             }
+            
             GetUserDto userGetDto = _userService.Post(userDto);
             return CreatedAtAction(nameof(GetUserById), new { userGetDto.UserId }, userGetDto);
         }

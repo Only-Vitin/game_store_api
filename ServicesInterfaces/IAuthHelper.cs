@@ -4,6 +4,6 @@ namespace game_store_api.ServicesInterfaces
 {
     public interface IAuthHelper
     {
-        public bool ValidToken(HttpRequest request);
+        bool ValidToken(HttpRequest request);
     }
 }

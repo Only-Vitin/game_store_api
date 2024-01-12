@@ -8,3 +8,4 @@ Criar storage da PurchasedGames
 
 ----------------------------------------------------------------
 
+Ver se token é do user

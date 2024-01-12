@@ -7,5 +7,6 @@ namespace game_store_api.ServicesInterfaces
         void Add(int userId, int gameId);
         bool VerifyOver18(Game game, User user);
         bool VerifyBalance(Game game, User user);
+        bool VerifyAlreadyPurchased(Game game, User user);
     }
 }

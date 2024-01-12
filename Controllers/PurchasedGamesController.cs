@@ -13,11 +13,13 @@ namespace game_store_api.Controllers
     public class PurchasedGamesController : ControllerBase
     {
         private readonly IAuthHelper _auth;
+        private readonly IUserService _userService;
         private readonly IPurchasedGamesService _purchasedService;
 
-        public PurchasedGamesController(IAuthHelper auth, IPurchasedGamesService purchasedService)
+        public PurchasedGamesController(IAuthHelper auth, IPurchasedGamesService purchasedService, IUserService userService)
         {
             _auth = auth;
+            _userService = userService;
             _purchasedService = purchasedService;
         }
 
@@ -27,6 +29,9 @@ namespace game_store_api.Controllers
         {
             HeadersHelper.AddDateOnHeaders(Response);
             if(!_auth.ValidToken(Request)) return Unauthorized();
+
+            User user = _userService.GetById(userId);
+            if(user == null) return NotFound();
 
             List<Game> purchasedGames = _purchasedService.GetById(userId);
 

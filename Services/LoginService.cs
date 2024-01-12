@@ -19,9 +19,10 @@ namespace game_store_api.Services
         private readonly IMapper _mapper;
         private readonly ITokenStorage _tokenStorage;
 
-        public LoginService(IMapper mapper)
+        public LoginService(IMapper mapper, ITokenStorage tokenStorage)
         {
             _mapper = mapper;
+            _tokenStorage = tokenStorage;
         }
 
         public bool VerifyPassword(LoginDto login, User user)

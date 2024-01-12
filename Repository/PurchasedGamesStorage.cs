@@ -11,6 +11,11 @@ namespace game_store_api.Repository
     {
         private readonly AppDbContext _context;
 
+        public PurchasedGamesStorage(AppDbContext context)
+        {
+            _context = context;
+        }
+
         public List<int> GetPurchasedGamesId(int userId)
         {
             return _context.PurchasedGames.Where(pg => pg.UserId == userId).Select(pg => pg.GameId).ToList();

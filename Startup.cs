@@ -48,7 +48,6 @@ namespace game_store_api
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddDbContext<AppDbContext>(opts => opts.UseMySql(Configuration.GetConnectionString("Connection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("Connection"))));
             services.AddControllers();
-            services.AddControllersWithViews();
 
             services.AddCors();
 

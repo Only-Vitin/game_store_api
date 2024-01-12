@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using game_store_api.Entities;
 using game_store_api.Interfaces;
 using game_store_api.ServicesInterfaces;
@@ -36,6 +37,11 @@ namespace game_store_api.Services
         public bool VerifyBalance(Game game, User user)
         {
             return user.Balance > game.Price;
+        }
+
+        public bool VerifyAlreadyPurchased(Game game, User user)
+        {
+            return _purchasedGamesStorage.GetPurchasedGamesId(user.UserId).Contains(game.GameId);
         }
     }
 }
