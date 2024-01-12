@@ -7,7 +7,6 @@ namespace game_store_api.Services
     {
         private readonly IPurchasedGamesStorage _purchasedGamesStorage;
  
-        public BuyGameService(){}
         public BuyGameService(IPurchasedGamesStorage purchasedGamesStorage)
         {
             _purchasedGamesStorage = purchasedGamesStorage;

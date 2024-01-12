@@ -13,7 +13,6 @@ namespace game_store_api.Services
         private readonly IUserStorage _userStorage;
         private readonly IMapper _mapper;
 
-        public UserService(){}
         public UserService(IUserStorage userStorage, IMapper mapper)
         {
             _userStorage = userStorage;

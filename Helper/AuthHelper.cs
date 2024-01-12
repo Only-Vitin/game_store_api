@@ -10,7 +10,6 @@ namespace game_store_api.Helper
     {
         private readonly ITokenStorage _tokenStorage;
 
-        public AuthHelper(){}
         public AuthHelper(ITokenStorage tokenStorage)
         {
             _tokenStorage = tokenStorage;

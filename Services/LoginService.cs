@@ -18,7 +18,6 @@ namespace game_store_api.Services
         private readonly IMapper _mapper;
         private readonly ITokenStorage _tokenStorage;
 
-        public LoginService(){}
         public LoginService(IMapper mapper)
         {
             _mapper = mapper;

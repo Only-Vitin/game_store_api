@@ -12,7 +12,6 @@ namespace game_store_api.Services
         private readonly IGameStorage _gameStorage;
         private readonly IMapper _mapper;
 
-        public GameService(){}
         public GameService(IGameStorage gameStorage, IMapper mapper)
         {
             _gameStorage = gameStorage;

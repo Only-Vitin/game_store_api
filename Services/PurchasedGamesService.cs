@@ -11,7 +11,6 @@ namespace game_store_api.Services
         private readonly IPurchasedGamesStorage _purchasedStorage;
         private readonly IGameStorage _gameStorage;
 
-        public PurchasedGamesService(){}
         public PurchasedGamesService(IPurchasedGamesStorage purchasedStorage)
         {
             _purchasedStorage = purchasedStorage;
