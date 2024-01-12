@@ -4,7 +4,7 @@ using game_store_api.Data;
 using game_store_api.Entities;
 using game_store_api.Interfaces;
 
-namespace game_store_api.Repository.Storage
+namespace game_store_api.Repository
 {
     public class TokenStorage : ITokenStorage
     {
