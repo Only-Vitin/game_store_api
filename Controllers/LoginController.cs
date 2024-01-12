@@ -4,6 +4,7 @@ using game_store_api.Dto;
 using game_store_api.Helper;
 using game_store_api.Services;
 using game_store_api.Entities;
+using game_store_api.ServicesInterfaces;
 
 namespace game_store_api.Controllers
 {
@@ -11,12 +12,13 @@ namespace game_store_api.Controllers
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
-        private readonly UserService _userService = new();
-        private readonly LoginService _loginService = new();
+        private readonly IUserService _userService;
+        private readonly ILoginService _loginService;
 
-        public LoginController(UserService userService)
+        public LoginController(IUserService userService, ILoginService loginService)
         {
             _userService = userService;
+            _loginService = loginService;
         }
 
         [HttpPost]

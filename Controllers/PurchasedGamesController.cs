@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 
 using game_store_api.Helper;
-using game_store_api.Services;
 using game_store_api.Entities;
+using game_store_api.ServicesInterfaces;
 
 namespace game_store_api.Controllers
 { 
@@ -12,8 +12,14 @@ namespace game_store_api.Controllers
     [Route("api/[controller]")]
     public class PurchasedGamesController : ControllerBase
     {
-        private readonly AuthHelper _auth = new();
-        private readonly PurchasedGamesService _purchasedService = new();
+        private readonly IAuthHelper _auth;
+        private readonly IPurchasedGamesService _purchasedService;
+
+        public PurchasedGamesController(IAuthHelper auth, IPurchasedGamesService purchasedService)
+        {
+            _auth = auth;
+            _purchasedService = purchasedService;
+        }
 
         [HttpGet("user/{userId}")]
         [Authorize(Roles = "admin,user")]

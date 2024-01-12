@@ -1,9 +1,10 @@
 using game_store_api.Entities;
 using game_store_api.Interfaces;
+using game_store_api.ServicesInterfaces;
 
 namespace game_store_api.Services
 {
-    public class BuyGameService
+    public class BuyGameService : IBuyGameService
     {
         private readonly IPurchasedGamesStorage _purchasedGamesStorage;
  

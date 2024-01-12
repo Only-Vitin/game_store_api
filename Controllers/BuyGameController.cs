@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using game_store_api.Helper;
 using game_store_api.Services;
 using game_store_api.Entities;
+using game_store_api.ServicesInterfaces;
 
 namespace game_store_api.Controllers
 {
@@ -12,10 +13,18 @@ namespace game_store_api.Controllers
     [Route("api/[controller]")]
     public class BuyGameController : ControllerBase
     {
-        private readonly AuthHelper _auth = new();
-        private readonly UserService _userService = new();
-        private readonly GameService _gameService = new();
-        private readonly BuyGameService _buyGameService = new();
+        private readonly IAuthHelper _auth;
+        private readonly IUserService _userService;
+        private readonly IGameService _gameService;
+        private readonly IBuyGameService _buyGameService;
+
+        public BuyGameController(IAuthHelper auth, IUserService userService, IGameService gameService, IBuyGameService buyGameService)
+        {
+            _auth = auth;
+            _userService = userService;
+            _gameService = gameService;
+            _buyGameService = buyGameService;
+        }
 
         [HttpPost("user/{userId}/game/{gameId}")]
         [Authorize(Roles = "user")]

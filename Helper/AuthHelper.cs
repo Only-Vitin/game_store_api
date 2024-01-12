@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Http;
 
 using game_store_api.Entities;
 using game_store_api.Interfaces;
+using game_store_api.ServicesInterfaces;
 
 namespace game_store_api.Helper
 {
-    public class AuthHelper
+    public class AuthHelper : IAuthHelper
     {
         private readonly ITokenStorage _tokenStorage;
 
