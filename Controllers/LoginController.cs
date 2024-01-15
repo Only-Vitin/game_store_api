@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using game_store_api.Dto;
 using game_store_api.Helper;
 using game_store_api.Entities;
-using game_store_api.ServicesInterfaces;
+using game_store_api.Services;
 
 namespace game_store_api.Controllers
 {
@@ -11,10 +11,10 @@ namespace game_store_api.Controllers
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
-        private readonly IUserService _userService;
-        private readonly ILoginService _loginService;
+        private readonly UserService _userService;
+        private readonly LoginService _loginService;
 
-        public LoginController(IUserService userService, ILoginService loginService)
+        public LoginController(UserService userService, LoginService loginService)
         {
             _userService = userService;
             _loginService = loginService;

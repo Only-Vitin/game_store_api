@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using game_store_api.Dto;
 using game_store_api.Entities;
 using game_store_api.Interfaces;
-using game_store_api.ServicesInterfaces;
 
 namespace game_store_api.Services
 {
-    public class GameService : IGameService
+    public class GameService
     {
         private readonly IGameStorage _gameStorage;
         private readonly IMapper _mapper;

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 
 using game_store_api.Helper;
 using game_store_api.Entities;
-using game_store_api.ServicesInterfaces;
+using game_store_api.Services;
 
 namespace game_store_api.Controllers
 {
@@ -12,11 +12,11 @@ namespace game_store_api.Controllers
     [Route("api/[controller]")]
     public class AvailableGamesController : ControllerBase
     {
-        private readonly IAuthHelper _auth;
-        private readonly IUserService _userService;
-        private readonly IAvailableGamesService _availableService;
+        private readonly AuthHelper _auth;
+        private readonly UserService _userService;
+        private readonly AvailableGamesService _availableService;
 
-        public AvailableGamesController(IAuthHelper auth, IAvailableGamesService availableService, IUserService userService)
+        public AvailableGamesController(AuthHelper auth, AvailableGamesService availableService, UserService userService)
         {
             _auth = auth;
             _userService = userService;

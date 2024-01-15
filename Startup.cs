@@ -12,12 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 using game_store_api.Data;
-using game_store_api.Interfaces;
-using game_store_api.Repository;
-using game_store_api.ServicesInterfaces;
-using game_store_api.Services;
 using game_store_api.Helper;
-using AutoMapper.Execution;
+using game_store_api.Services;
+using game_store_api.Repository;
+using game_store_api.Interfaces;
 
 namespace game_store_api
 {
@@ -37,13 +35,13 @@ namespace game_store_api
             services.AddScoped<IUserStorage, UserStorage>();
             services.AddScoped<ITokenStorage, TokenStorage>();
 
-            services.AddScoped<IAuthHelper, AuthHelper>();
-            services.AddScoped<IAvailableGamesService, AvailableGamesService>();
-            services.AddScoped<IBuyGameService, BuyGameService>();
-            services.AddScoped<IGameService, GameService>();
-            services.AddScoped<ILoginService, LoginService>();
-            services.AddScoped<IPurchasedGamesService, PurchasedGamesService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<AuthHelper>();
+            services.AddScoped<AvailableGamesService>();
+            services.AddScoped<BuyGameService>();
+            services.AddScoped<GameService>();
+            services.AddScoped<LoginService>();
+            services.AddScoped<PurchasedGamesService>();
+            services.AddScoped<UserService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddDbContext<AppDbContext>(opts => opts.UseMySql(Configuration.GetConnectionString("Connection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("Connection"))));

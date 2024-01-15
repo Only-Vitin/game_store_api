@@ -5,11 +5,10 @@ using BCryptNet = BCrypt.Net.BCrypt;
 using game_store_api.Dto;
 using game_store_api.Entities;
 using game_store_api.Interfaces;
-using game_store_api.ServicesInterfaces;
 
 namespace game_store_api.Services
 {
-    public class UserService : IUserService
+    public class UserService
     {
         private readonly IUserStorage _userStorage;
         private readonly IMapper _mapper;

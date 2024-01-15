@@ -10,11 +10,10 @@ using game_store_api.Dto;
 using game_store_api.Data;
 using game_store_api.Entities;
 using game_store_api.Interfaces;
-using game_store_api.ServicesInterfaces;
 
 namespace game_store_api.Services
 {
-    public class LoginService : ILoginService
+    public class LoginService
     { 
         private readonly IMapper _mapper;
         private readonly ITokenStorage _tokenStorage;

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 
 using game_store_api.Entities;
 using game_store_api.Interfaces;
-using game_store_api.ServicesInterfaces;
 
 namespace game_store_api.Services
 {   
-    public class AvailableGamesService : IAvailableGamesService
+    public class AvailableGamesService
     {
         private readonly IPurchasedGamesStorage _purchasedStorage;
         private readonly IGameStorage _gameStorage;
