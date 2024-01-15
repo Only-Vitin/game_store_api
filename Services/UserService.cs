@@ -1,6 +1,5 @@
 using AutoMapper;
 using System.Collections.Generic;
-using BCryptNet = BCrypt.Net.BCrypt;
 
 using game_store_api.Dto;
 using game_store_api.Entities;
@@ -12,11 +11,13 @@ namespace game_store_api.Services
     {
         private readonly IUserStorage _userStorage;
         private readonly IMapper _mapper;
+        private readonly IByCrypt _bcrypt;
 
-        public UserService(IUserStorage userStorage, IMapper mapper)
+        public UserService(IUserStorage userStorage, IMapper mapper, IByCrypt bcrypt)
         {
             _userStorage = userStorage;
             _mapper = mapper;
+            _bcrypt = bcrypt;
         }
 
         public bool VerifyEmailOnDb(string email)
@@ -68,7 +69,7 @@ namespace game_store_api.Services
         public GetUserDto Post(PostUserDto userDto)
         {
             User user = _mapper.Map<User>(userDto);
-            user.Password = BCryptNet.EnhancedHashPassword(user.Password, 13);
+            user.Password = _bcrypt.EncryptPassword(user.Password);
 
             _userStorage.AddUser(user);
 
@@ -77,7 +78,7 @@ namespace game_store_api.Services
 
         public void Put(PostUserDto updatedUser, User user)
         {
-            updatedUser.Password = BCryptNet.EnhancedHashPassword(updatedUser.Password, 13);
+            updatedUser.Password = _bcrypt.EncryptPassword(updatedUser.Password);
             _userStorage.UpdateUser(updatedUser, user);
         }
 

@@ -34,6 +34,8 @@ namespace game_store_api
             services.AddScoped<IPurchasedGamesStorage, PurchasedGamesStorage>();
             services.AddScoped<IUserStorage, UserStorage>();
             services.AddScoped<ITokenStorage, TokenStorage>();
+            services.AddScoped<IByCrypt, ByCrypt>();
+            services.AddScoped<IJwt, Jwt>();
 
             services.AddScoped<AuthHelper>();
             services.AddScoped<AvailableGamesService>();

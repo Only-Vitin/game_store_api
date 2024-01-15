@@ -1,6 +1,6 @@
 namespace game_store_api.Helper
 {   
-    public class CustomMessage
+    public struct CustomMessage
     {
         public CustomMessage(string message)
         {
