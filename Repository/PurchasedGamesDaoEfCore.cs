@@ -3,15 +3,15 @@ using System.Linq;
 
 using game_store_api.Data;
 using game_store_api.Entities;
-using game_store_api.Interfaces;
+using game_store_api.Abstractions;
 
 namespace game_store_api.Repository
 {
-    public class PurchasedGamesStorage : IPurchasedGamesStorage
+    public class PurchasedGamesDaoEfCore : IPurchasedGamesDao
     {
         private readonly AppDbContext _context;
 
-        public PurchasedGamesStorage(AppDbContext context)
+        public PurchasedGamesDaoEfCore(AppDbContext context)
         {
             _context = context;
         }

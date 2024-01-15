@@ -1,15 +1,15 @@
 using game_store_api.Entities;
-using game_store_api.Interfaces;
+using game_store_api.Abstractions;
 
 namespace game_store_api.Services
 {
     public class BuyGameService
     {
-        private readonly IPurchasedGamesStorage _purchasedGamesStorage;
+        private readonly IPurchasedGamesDao _purchasedGamesDao;
  
-        public BuyGameService(IPurchasedGamesStorage purchasedGamesStorage)
+        public BuyGameService(IPurchasedGamesDao purchasedGamesDao)
         {
-            _purchasedGamesStorage = purchasedGamesStorage;
+            _purchasedGamesDao = purchasedGamesDao;
         }
 
         public void Add(int userId, int gameId)
@@ -20,7 +20,7 @@ namespace game_store_api.Services
                 GameId = gameId
             };
 
-            _purchasedGamesStorage.AddNewPurchase(newPurchase);
+            _purchasedGamesDao.AddNewPurchase(newPurchase);
         }
 
         public bool VerifyOver18(Game game, User user)
@@ -39,7 +39,7 @@ namespace game_store_api.Services
 
         public bool VerifyAlreadyPurchased(Game game, User user)
         {
-            return _purchasedGamesStorage.GetPurchasedGamesId(user.UserId).Contains(game.GameId);
+            return _purchasedGamesDao.GetPurchasedGamesId(user.UserId).Contains(game.GameId);
         }
     }
 }

@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using game_store_api.Dto;
 using game_store_api.Data;
 using game_store_api.Entities;
-using game_store_api.Interfaces;
+using game_store_api.Abstractions;
 
 namespace game_store_api.Repository
 {
-    public class GameStorage : IGameStorage
+    public class GameDaoEfCore : IGameDao
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
 
-        public GameStorage(AppDbContext context, IMapper mapper)
+        public GameDaoEfCore(AppDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

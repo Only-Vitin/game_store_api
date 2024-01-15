@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 using game_store_api.Entities;
 
-namespace game_store_api.Interfaces
+namespace game_store_api.Abstractions
 {
-    public interface IPurchasedGamesStorage
+    public interface IPurchasedGamesDao
     {
         void AddNewPurchase(PurchasedGames newPurchase);
         List<int> GetPurchasedGamesId(int userId);

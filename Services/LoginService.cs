@@ -3,21 +3,21 @@ using AutoMapper;
 
 using game_store_api.Dto;
 using game_store_api.Entities;
-using game_store_api.Interfaces;
+using game_store_api.Abstractions;
 
 namespace game_store_api.Services
 {
     public class LoginService
     { 
         private readonly IMapper _mapper;
-        private readonly ITokenStorage _tokenStorage;
+        private readonly ITokenDao _tokenDao;
         private readonly IByCrypt _bcrypt;
         private readonly IJwt _jwt;
 
-        public LoginService(IMapper mapper, ITokenStorage tokenStorage, IByCrypt bcrypt, IJwt jwt)
+        public LoginService(IMapper mapper, ITokenDao tokenDao, IByCrypt bcrypt, IJwt jwt)
         {
             _mapper = mapper;
-            _tokenStorage = tokenStorage;
+            _tokenDao = tokenDao;
             _bcrypt = bcrypt;
             _jwt = jwt;
         }
@@ -44,7 +44,7 @@ namespace game_store_api.Services
                 ExpirationDate = DateTime.UtcNow.AddDays(10).ToString()
             };
 
-            _tokenStorage.AddTokenOnDb(tokenClass);
+            _tokenDao.AddTokenOnDb(tokenClass);
         
             return _mapper.Map<GetUserDto>(user);
         }

@@ -1,4 +1,4 @@
-namespace game_store_api.Interfaces
+namespace game_store_api.Abstractions
 {
     public interface IByCrypt
     {

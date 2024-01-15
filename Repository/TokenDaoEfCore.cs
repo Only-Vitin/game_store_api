@@ -2,15 +2,15 @@ using System.Linq;
 
 using game_store_api.Data;
 using game_store_api.Entities;
-using game_store_api.Interfaces;
+using game_store_api.Abstractions;
 
 namespace game_store_api.Repository
 {
-    public class TokenStorage : ITokenStorage
+    public class TokenDaoEfCore : ITokenDao
     {
         private readonly AppDbContext _context;
 
-        public TokenStorage(AppDbContext context)
+        public TokenDaoEfCore(AppDbContext context)
         {
             _context = context;
         }

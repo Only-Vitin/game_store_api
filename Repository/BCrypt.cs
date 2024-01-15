@@ -1,6 +1,6 @@
 using BCryptNet = BCrypt.Net.BCrypt;
 
-using game_store_api.Interfaces;
+using game_store_api.Abstractions;
 
 namespace game_store_api.Repository
 {

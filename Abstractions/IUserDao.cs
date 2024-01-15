@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using game_store_api.Dto;
 using game_store_api.Entities;
 
-namespace game_store_api.Interfaces
+namespace game_store_api.Abstractions
 {
-    public interface IUserStorage
+    public interface IUserDao
     {
         IEnumerable<User> GetAllUsers();
         User GetUserById(int userId);

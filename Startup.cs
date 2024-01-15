@@ -15,7 +15,7 @@ using game_store_api.Data;
 using game_store_api.Helper;
 using game_store_api.Services;
 using game_store_api.Repository;
-using game_store_api.Interfaces;
+using game_store_api.Abstractions;
 
 namespace game_store_api
 {
@@ -30,10 +30,10 @@ namespace game_store_api
 
         public void ConfigureServices(IServiceCollection services)
         {   
-            services.AddScoped<IGameStorage, GameStorage>();
-            services.AddScoped<IPurchasedGamesStorage, PurchasedGamesStorage>();
-            services.AddScoped<IUserStorage, UserStorage>();
-            services.AddScoped<ITokenStorage, TokenStorage>();
+            services.AddScoped<IGameDao, GameDaoEfCore>();
+            services.AddScoped<IPurchasedGamesDao, PurchasedGamesDaoEfCore>();
+            services.AddScoped<ITokenDao, TokenDaoEfCore>();
+            services.AddScoped<IUserDao, UserDaoEfCore>();
             services.AddScoped<IByCrypt, ByCrypt>();
             services.AddScoped<IJwt, Jwt>();
 

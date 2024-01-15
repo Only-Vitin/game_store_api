@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 using game_store_api.Data;
 using game_store_api.Entities;
-using game_store_api.Interfaces;
+using game_store_api.Abstractions;
 
 namespace game_store_api.Repository
 {
