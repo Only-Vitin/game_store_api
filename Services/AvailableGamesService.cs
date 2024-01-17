@@ -20,11 +20,8 @@ namespace game_store_api.Services
         public List<Game> GetById(int userId)
         {
             List<int> gamesId = _purchasedDao.GetPurchasedGamesId(userId);
-            
-            List<Game> availableGames = 
-            (from game in _gameDao.GetAllGames()
-            where !gamesId.Contains(game.GameId)
-            select game).ToList();
+
+            List<Game> availableGames = _gameDao.GetAllGames().Where(g => !gamesId.Contains(g.GameId)).ToList();
 
             return availableGames;
         }

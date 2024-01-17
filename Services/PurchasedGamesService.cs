@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using game_store_api.Entities;
 using game_store_api.Abstractions;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
 
 namespace game_store_api.Services
 {   
@@ -20,11 +22,8 @@ namespace game_store_api.Services
         public List<Game> GetById(int userId)
         {
             List<int> gamesId = _purchasedDao.GetPurchasedGamesId(userId);
-            
-            List<Game> purchasedGames = 
-            (from game in _gameDao.GetAllGames()
-            where gamesId.Contains(game.GameId)
-            select game).ToList();
+
+            List<Game> purchasedGames = _gameDao.GetAllGames().Where(g => gamesId.Contains(g.GameId)).ToList();
 
             return purchasedGames;
         }
