@@ -30,8 +30,7 @@ namespace game_store_api.Controllers
             HeadersHelper.AddDateOnHeaders(Response);
             if(!_auth.ValidToken(Request)) return Unauthorized();
 
-            User user = _userService.GetById(userId);
-            if(user == null) return NotFound();
+            if(!_userService.VerifyUserId(userId)) return NotFound();
 
             List<Game> purchasedGames = _purchasedService.GetById(userId);
 

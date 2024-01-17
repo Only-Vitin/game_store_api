@@ -7,6 +7,7 @@ namespace game_store_api.Abstractions
 {
     public interface IUserDao
     {
+        bool AnyUserById(int userId);
         IEnumerable<User> GetAllUsers();
         User GetUserById(int userId);
         User GetUserByEmail(string email);

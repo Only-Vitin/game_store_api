@@ -28,6 +28,11 @@ namespace game_store_api.Services
             return true;
         }
 
+        public bool VerifyUserId(int userId)
+        {
+            return _userDao.AnyUserById(userId);
+        }
+
         public void AddBalance(User user, double value)
         {
             _userDao.AddValueToBalance(user, value);
@@ -41,6 +46,11 @@ namespace game_store_api.Services
         public User GetByEmail(string email)
         {
             return _userDao.GetUserByEmail(email);
+        }
+
+        public User GetById(int userId)
+        {
+            return _userDao.GetUserById(userId);
         }
 
         public List<GetUserDto> Get()
@@ -59,11 +69,6 @@ namespace game_store_api.Services
         {
             User user = _userDao.GetUserById(userId);
             return _mapper.Map<GetUserByIdDto>(user);
-        }
-
-        public User GetById(int userId)
-        {
-            return _userDao.GetUserById(userId);
         }
 
         public GetUserDto Post(PostUserDto userDto)

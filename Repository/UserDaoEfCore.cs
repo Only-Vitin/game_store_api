@@ -20,6 +20,11 @@ namespace game_store_api.Repository
             _mapper = mapper;
         }
 
+        public bool AnyUserById(int userId)
+        {
+            return _context.User.Any(u => u.UserId == userId);
+        }
+
         public IEnumerable<User> GetAllUsers()
         {
             return _context.User;
