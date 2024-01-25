@@ -33,18 +33,20 @@ namespace game_store_api.Repository
         public void AddGame(Game game)
         {
             _context.Game.Add(game);
-            _context.SaveChanges();
         }
 
         public void UpdateGame(PostGameDto updatedGame, Game game)
         {
             _mapper.Map(updatedGame, game);
-            _context.SaveChanges();
         }
 
         public void DeleteGame(Game game)
         {
             _context.Remove(game);
+        }
+
+        public void SaveChanges()
+        {
             _context.SaveChanges();
         }
     }

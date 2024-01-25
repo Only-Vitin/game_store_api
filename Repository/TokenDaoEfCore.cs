@@ -18,12 +18,16 @@ namespace game_store_api.Repository
         public void AddTokenOnDb(Token tokenClass)
         {
             _context.Token.Add(tokenClass);
-            _context.SaveChanges();
         }
         
         public Token GetTokenByValue(string value)
         {
             return _context.Token.Where(t => t.TokenValue == value).SingleOrDefault();
+        }
+
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
         }
     }
 }

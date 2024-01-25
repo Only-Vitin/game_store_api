@@ -24,6 +24,10 @@ namespace game_store_api.Repository
         public void AddNewPurchase(PurchasedGames newPurchase)
         {
             _context.PurchasedGames.Add(newPurchase);
+        }
+
+        public void SaveChanges()
+        {
             _context.SaveChanges();
         }
     }

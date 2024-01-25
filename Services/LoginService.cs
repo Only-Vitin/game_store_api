@@ -45,6 +45,7 @@ namespace game_store_api.Services
             };
 
             _tokenDao.AddTokenOnDb(tokenClass);
+            _tokenDao.SaveChanges();
         
             return _mapper.Map<GetUserDto>(user);
         }

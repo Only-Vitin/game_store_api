@@ -36,11 +36,13 @@ namespace game_store_api.Services
         public void AddBalance(User user, double value)
         {
             _userDao.AddValueToBalance(user, value);
+            _userDao.SaveChanges();
         }
 
         public void RemoveBalance(User user, double value)
         {
             _userDao.RemoveValueFromBalance(user, value);
+            _userDao.SaveChanges();
         }
 
         public User GetByEmail(string email)
@@ -77,6 +79,7 @@ namespace game_store_api.Services
             user.Password = _bcrypt.EncryptPassword(user.Password);
 
             _userDao.AddUser(user);
+            _userDao.SaveChanges();
 
             return _mapper.Map<GetUserDto>(user);
         }
@@ -85,11 +88,13 @@ namespace game_store_api.Services
         {
             updatedUser.Password = _bcrypt.EncryptPassword(updatedUser.Password);
             _userDao.UpdateUser(updatedUser, user);
+            _userDao.SaveChanges();
         }
 
         public void Delete(User user)
         {
             _userDao.DeleteUser(user);
+            _userDao.SaveChanges();
         }
     }
 }

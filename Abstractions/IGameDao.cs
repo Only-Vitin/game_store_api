@@ -7,10 +7,11 @@ namespace game_store_api.Abstractions
 {
     public interface IGameDao
     {
-        public IEnumerable<Game> GetAllGames();
-        public Game GetGameById(int gameId);
-        public void AddGame(Game game);
-        public void UpdateGame(PostGameDto updatedGame, Game game);
-        public void DeleteGame(Game game);
+        IEnumerable<Game> GetAllGames();
+        Game GetGameById(int gameId);
+        void AddGame(Game game);
+        void UpdateGame(PostGameDto updatedGame, Game game);
+        void DeleteGame(Game game);
+        void SaveChanges();
     }
 }

@@ -45,6 +45,7 @@ namespace game_store_api.Services
         {
             Game game = _mapper.Map<Game>(gameDto);
             _gameDao.AddGame(game);
+            _gameDao.SaveChanges();
 
             return _mapper.Map<GetGameDto>(game);
         }
@@ -52,11 +53,13 @@ namespace game_store_api.Services
         public void Put(PostGameDto updatedGame, Game game)
         {
             _gameDao.UpdateGame(updatedGame, game);
+            _gameDao.SaveChanges();
         }
 
         public void Delete(Game game)
         {
             _gameDao.DeleteGame(game);
+            _gameDao.SaveChanges();
         }
     }
 }

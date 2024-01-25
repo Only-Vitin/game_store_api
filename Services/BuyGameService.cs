@@ -21,6 +21,7 @@ namespace game_store_api.Services
             };
 
             _purchasedGamesDao.AddNewPurchase(newPurchase);
+            _purchasedGamesDao.SaveChanges();
         }
 
         public bool VerifyOver18(Game game, User user)

@@ -8,5 +8,6 @@ namespace game_store_api.Abstractions
     {
         void AddNewPurchase(PurchasedGames newPurchase);
         List<int> GetPurchasedGamesId(int userId);
+        void SaveChanges();
     }
 }

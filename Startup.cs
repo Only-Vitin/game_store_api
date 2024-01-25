@@ -30,12 +30,12 @@ namespace game_store_api
 
         public void ConfigureServices(IServiceCollection services)
         {   
-            services.AddTransient<IGameDao, GameDaoEfCore>();
-            services.AddTransient<IPurchasedGamesDao, PurchasedGamesDaoEfCore>();
-            services.AddTransient<ITokenDao, TokenDaoEfCore>();
-            services.AddTransient<IUserDao, UserDaoEfCore>();
-            services.AddTransient<IByCrypt, ByCrypt>();
-            services.AddTransient<IJwt, Jwt>();
+            services.AddScoped<IGameDao, GameDaoEfCore>();
+            services.AddScoped<IPurchasedGamesDao, PurchasedGamesDaoEfCore>();
+            services.AddScoped<ITokenDao, TokenDaoEfCore>();
+            services.AddScoped<IUserDao, UserDaoEfCore>();
+            services.AddScoped<IByCrypt, ByCrypt>();
+            services.AddScoped<IJwt, Jwt>();
 
             services.AddScoped<AuthHelper>();
             services.AddScoped<AvailableGamesService>();

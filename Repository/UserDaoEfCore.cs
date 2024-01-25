@@ -43,30 +43,30 @@ namespace game_store_api.Repository
         public void AddUser(User user)
         {
             _context.User.Add(user);
-            _context.SaveChanges();
         }
 
         public void UpdateUser(PostUserDto updatedUser, User user)
         {
             _mapper.Map(updatedUser, user);
-            _context.SaveChanges();
         }
 
         public void DeleteUser(User user)
         {
             _context.Remove(user);
-            _context.SaveChanges();
         }
 
         public void AddValueToBalance(User user, double value)
         {
             user.Balance += value;
-            _context.SaveChanges();
         }
 
         public void RemoveValueFromBalance(User user, double value)
         {
             user.Balance -= value;
+        }
+
+        public void SaveChanges()
+        {
             _context.SaveChanges();
         }
     }

@@ -16,5 +16,6 @@ namespace game_store_api.Abstractions
         void DeleteUser(User user);
         void AddValueToBalance(User user, double value);
         void RemoveValueFromBalance(User user, double value);
+        void SaveChanges();
     }
 }
